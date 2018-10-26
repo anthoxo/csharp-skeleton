@@ -6,10 +6,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
     {
         public static int Answer(string[,] machineToBeFixed, int numOfConsecutiveMachines)
         {
-            result = -1;
-            for (int i = 0 ; i < machineToBeFixed.Rank ; i++) {
+            int result = -1;
+            for (int i = 0 ; i < machineToBeFixed.GetLength(0) ; i++) {
                 List<int> tmp = new List<int>();
-                for (int j = 0 ; j < machineToBeFixed.GetLength(i) ; j++) {
+                for (int j = 0 ; j < machineToBeFixed.GetLength(1) ; j++) {
                     if (machineToBeFixed[i, j] == "X") {
                         tmp.RemoveAll(_ => true);
                     } else {
