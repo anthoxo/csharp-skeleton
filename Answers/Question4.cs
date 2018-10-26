@@ -7,17 +7,22 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         public static int Answer(string[,] machineToBeFixed, int numOfConsecutiveMachines)
         {
             int result = -1;
+            int sumTmp = 0;
             for (int i = 0 ; i < machineToBeFixed.GetLength(0) ; i++) {
                 List<int> tmp = new List<int>();
                 for (int j = 0 ; j < machineToBeFixed.GetLength(1) ; j++) {
                     if (machineToBeFixed[i, j] == "X") {
-                        tmp.RemoveAll(_ => true);
+                        tmp = new List<int>();
+                        sumTmp = 0;
                     } else {
-                        tmp.Add(int.Parse(machineToBeFixed[i, j]));
+                        int a = int.Parse(machineToBeFixed[i, j]);
+                        sumTmp += a;
+                        tmp.Add(a);
                         if (tmp.Count == numOfConsecutiveMachines) {
-                            int r = 0;
-                            tmp.ForEach(t => r += t);
-                            result = (result == -1 || r < result) ? r : result;
+                            if (result == -1 || sumTmp < result) {
+                                result = sumTmp;
+                            }
+                            sumTmp -= tmp[0];
                             tmp.RemoveAt(0);
                         }
                     }
