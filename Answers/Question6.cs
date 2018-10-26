@@ -77,8 +77,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int edge = this.graph.GetEdge(s1, s2);
             int d2 = this.distance[s2];
             int d1 = this.distance[s1];
-            if (d2 == -1 || (d2 > d1 + edge && edge != 1)) {
-                this.distance.Insert(s2, d1 + edge);
+            if (edge != -1) {
+                if (d2 == -1 || d2 > d1 + edge) {
+                    this.distance.Insert(s2, d1 + edge);
+                }
             }
         }
 
@@ -87,12 +89,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             this.alreadySeen.Insert(ind, true);
             if (ind != this.finalNode) {
                 for (int i = 0 ; i < this.graph.nbNodes ; i++) {
-                    int edge = this.graph.GetEdge(ind, i);
-                    if (!(this.alreadySeen[i]) && edge != 0) {
-                        int tmp = this.distance[ind] + edge;
-                        if (this.distance[i] == -1 || tmp < this.distance[i]) {
-                            this.distance.Insert(i, tmp);
-                        }
+                    if (!(this.alreadySeen[i])) {
+                        this.majDistance(ind, i);
                     }
                 }
             }
