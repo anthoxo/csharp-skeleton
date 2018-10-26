@@ -40,7 +40,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             this.alreadySeen = new List<bool>();
             this.distance = new List<int>();
         }
-        public Dijkstra(Graph graph, int startNode, int finalNode) {
+        public Dijkstra(Graph graph, int finalNode) {
             this.graph = graph;
             this.alreadySeen = new List<bool>();
             this.distance = new List<int>();
@@ -116,8 +116,12 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 edges.Add(tmpList);
             }
             Graph g = new Graph(numOfServers, edges);
-            Dijkstra dijkstra = new Dijkstra(g, 0, targetServer);
-            return dijkstra.StartDijkstra();
+            Dijkstra dijkstra = new Dijkstra(g, targetServer);
+            int result = dijkstra.StartDijkstra();
+            g = null;
+            dijkstra = null;
+            edges = null;
+            return result;
         }
     }
 }
