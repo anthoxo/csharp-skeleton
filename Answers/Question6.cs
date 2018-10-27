@@ -47,8 +47,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 if (i == this.nbNodes || j == this.nbNodes) {
                     this.AddNode();
                 }
-                this.edges[i].Insert(j, value);
-                this.edges[j].Insert(i, value);
+                this.edges[i][j] = value;
+                this.edges[j][i] = value;
             }
         }
 
@@ -85,10 +85,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             for (int i = 0 ; i < this.graph.nbNodes ; i++) {
                 int d = this.distance[i];
                 if (d != -1 && !(this.alreadySeen[i])) {
-                    if (m == -1) {
-                        r = i;
-                        m = d;
-                    } else if (d < m) {
+                    if (m == -1 || d < m) {
                         r = i;
                         m = d;
                     }
@@ -98,22 +95,19 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         }
 
         public void majDistance(int s1, int s2) {
-            int edge = this.graph.GetEdge(s1, s2);
             int d2 = this.distance[s2];
-            int d1 = this.distance[s1];
-            if (edge != -1) {
-                if (d2 == -1 || d2 > d1 + edge) {
-                    this.distance.Insert(s2, d1 + edge);
-                }
+            int d1 = this.distance[s1] + this.graph.GetEdge(s1, s2);
+            if (d2 == -1 || d2 > d1) {
+                this.distance[s2] = d1;
             }
         }
 
         public void StepDijkstra() {
             int ind = this.FindIndexMin();
-            this.alreadySeen.Insert(ind, true);
+            this.alreadySeen[ind] = true;
             if (ind != this.finalNode) {
                 for (int i = 0 ; i < this.graph.nbNodes ; i++) {
-                    if (!(this.alreadySeen[i])) {
+                    if (!(this.alreadySeen[i]) && this.graph.GetEdge(ind, i) != -1) {
                         this.majDistance(ind, i);
                     }
                 }
@@ -148,40 +142,4 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             return result;
         }
     }
-
-        public class Question6Bis
-    {
-        public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
-        {
-            //TODO: Please work out the solution;
-            if(numOfServers == 0 || numOfServers > connectionTimeMatrix.GetLength(0)) {
-              return -1;
-            }
-            List<int> visited = new List<int>();
-            return lengthPath(targetServer, connectionTimeMatrix, connectionTimeMatrix[targetServer, 0], visited);
-        }
-
-        public static int lengthPath(int startingNode, int[,] graph, int minValue, List<int> visited)
-        {
-          for(int i = 0; i < graph.GetLength(0); i++) {
-            graph[i, i] = 1000000;
-          }
-          if(startingNode == 0) {
-            return 0;
-          }
-          visited.Add(startingNode);
-          List<int> availableNodes = new List<int>();
-          for(int i = 0; i < graph.GetLength(0); i++) {
-            if(!availableNodes.Contains(i) && graph[startingNode, i] <= minValue) {
-              availableNodes.Add(i);
-            }
-          }
-          foreach(int node in availableNodes) {
-            minValue = Math.Min(minValue, graph[startingNode, node] + lengthPath(node, graph, minValue, visited));
-          }
-          return minValue;
-        }
-    }
-
-
 }
