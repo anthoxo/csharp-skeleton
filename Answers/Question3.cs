@@ -14,7 +14,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             List<List<int>> result = new List<List<int>>();
             for (int i = 0 ; i < listK.Count ; i++) {
                 List<int> tmp = listK[i];
-                for (int j = 0 ; j < this.graph.nbNodes; j++) {
+                int n = tmp[tmp.Count - 1];
+                for (int j = n ; j < this.graph.nbNodes; j++) {
                     bool pred = true;
                     for (int k = 0 ; k < tmp.Count && pred; k++) {
                         if (this.graph.GetEdge(tmp[k], j) == 1 || tmp[k] == j) {
