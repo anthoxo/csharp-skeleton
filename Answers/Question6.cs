@@ -4,6 +4,22 @@ using System.Collections.Generic;
 
 namespace C_Sharp_Challenge_Skeleton.Answers
 {
+    public class DuplicateKeyComparer<TKey>
+                :
+             IComparer<TKey> where TKey : IComparable
+{
+    #region IComparer<TKey> Members
+    public int Compare(TKey x, TKey y)
+    {
+        int result = x.CompareTo(y);
+
+        if (result == 0)
+            return 1;   // Handle equality as beeing greater
+        else
+            return result;
+    }
+    #endregion
+}
     public class Graph {
         public int nbNodes {
             get;
@@ -51,73 +67,63 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 this.edges[j][i] = value;
             }
         }
-
     }
     class Dijkstra {
         public Graph graph;
-        List<bool> alreadySeen;
-        List<int> distance;
+        SortedList<int, int> alreadySeen;
+        SortedList<int,int> notSeen;
         int finalNode;
-
-        public Dijkstra() {
-            this.graph = new Graph();
-            this.alreadySeen = new List<bool>();
-            this.distance = new List<int>();
-        }
         public Dijkstra(Graph graph, int finalNode) {
             this.graph = graph;
-            this.alreadySeen = new List<bool>();
-            this.distance = new List<int>();
+            this.alreadySeen = new SortedList<int, int>();
+            this.notSeen = new SortedList<int, int>(new DuplicateKeyComparer<int>());
             this.finalNode = finalNode;
             this.InitValues();
         }
-
         public void InitValues() {
-            for (int i = 0 ; i < this.graph.nbNodes ; i++) {
-                this.distance.Add(-1);
-                this.alreadySeen.Add(false);
+            this.notSeen.Add(0, 0);
+            for (int i = 1 ; i < this.graph.nbNodes ; i++) {
+                this.notSeen.Add(int.MaxValue - 1, i);
             }
-            this.distance[0] = 0;
         }
         public int FindIndexMin() {
-            int r = -1;
-            int m = -1;
-            for (int i = 0 ; i < this.graph.nbNodes ; i++) {
-                int d = this.distance[i];
-                if (d != -1 && !(this.alreadySeen[i])) {
-                    if (m == -1 || d < m) {
-                        r = i;
-                        m = d;
-                    }
-                }
-            }
-            return r;
+            return this.notSeen.Values[0];
         }
 
-        public void majDistance(int s1, int s2) {
-            int d2 = this.distance[s2];
-            int d1 = this.distance[s1] + this.graph.GetEdge(s1, s2);
-            if (d2 == -1 || d2 > d1) {
-                this.distance[s2] = d1;
+        public void majDistance(SortedList<int,int> list , int s1, int s2, int d1, int d2) {
+            if (d2 > d1) {
+                list.Add(d1,s2);
+            } else {
+                list.Add(d2, s2);
             }
         }
 
-        public void StepDijkstra() {
+        public int StepDijkstra() {
             int ind = this.FindIndexMin();
-            this.alreadySeen[ind] = true;
+            int d1 = this.notSeen.Keys[0];
+            this.alreadySeen.Add(ind, d1);
+            this.notSeen.RemoveAt(0);
+
             if (ind != this.finalNode) {
-                for (int i = 0 ; i < this.graph.nbNodes ; i++) {
-                    if (!(this.alreadySeen[i]) && this.graph.GetEdge(ind, i) != -1) {
-                        this.majDistance(ind, i);
+                SortedList<int, int> tmpNotSeen = new SortedList<int, int>(new DuplicateKeyComparer<int>());
+                foreach(KeyValuePair<int,int> kvp in this.notSeen) {
+                    int edge = this.graph.GetEdge(ind, kvp.Value);
+                    if (edge != -1) {
+                        this.majDistance(tmpNotSeen, ind, kvp.Value, d1 + edge, kvp.Key);
+                    } else {
+                        tmpNotSeen.Add(kvp.Key, kvp.Value);
                     }
                 }
+                this.notSeen = tmpNotSeen;
             }
+            return ind;
         }
         public int StartDijkstra() {
-            while(!(this.alreadySeen[this.finalNode])) {
-                this.StepDijkstra();
+            int ind = 0;
+            while(ind != this.finalNode) {
+                ind = this.StepDijkstra();
             }
-            return this.distance[this.finalNode];
+            return this.alreadySeen[ind];
         }
     }
     public class Question6
@@ -136,9 +142,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             Graph g = new Graph(numOfServers, edges);
             Dijkstra dijkstra = new Dijkstra(g, targetServer);
             int result = dijkstra.StartDijkstra();
-            g = null;
-            dijkstra = null;
-            edges = null;
             return result;
         }
     }
