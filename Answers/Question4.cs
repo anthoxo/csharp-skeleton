@@ -23,7 +23,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                                 result = sumTmp;
                             }
                             sumTmp -= tmp[0];
-                            tmp.RemoveAt(0);
+                            tmp = tmp.GetRange(1, numOfConsecutiveMachines-1);
                         }
                     }
                 }
