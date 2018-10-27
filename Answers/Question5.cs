@@ -18,11 +18,11 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 int b;
 
                 for (int i = 0 ; i < numOfShares.Length ; i++) {
-                    job.Add(int.MaxValue - 1);
+                    job.Add(-1);
                     numbers.Add(numOfShares[i], numOfShares[i]);
                 }
                 for (int i = numOfShares.Length ; i < totalValueOfShares + 1 ; i++) {
-                    job.Add(int.MaxValue - 1);
+                    job.Add(-1);
                 }
                 job[0] = 0;
                 alreadyAdded.Add(0, 0); 
@@ -33,7 +33,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                         a = numbers.Values[i];
                         b = alreadyAdded.Values[j];
                         for (int k = 1 ; b + a * k < totalValueOfShares + 1 ; k++) {
-                            if (1 + job[b+a*(k-1)] < job[b+a*k]) {
+                            if (1 + job[b+a*(k-1)] < job[b+a*k] || job[b+a*k] == -1) {
                                 job[b+a*k] = 1 + job[b+a*(k-1)];
                                 try {
                                     tmp.Add(b+a*k,b+a*k);
@@ -54,7 +54,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                         } 
                     }
                 }
-                if (job[totalValueOfShares] == int.MaxValue - 1) {
+                if (job[totalValueOfShares] == - 1) {
                     return 0;
                 } else {
                     return job[totalValueOfShares];
