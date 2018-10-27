@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace C_Sharp_Challenge_Skeleton.Answers
@@ -26,6 +27,29 @@ namespace C_Sharp_Challenge_Skeleton.Answers
 
         public int GetEdge(int i, int j) {
             return this.edges[i][j];
+        }
+        public void AddNode() {
+            List<int> tmp = new List<int>();
+            for (int i = 0 ; i < this.nbNodes ; i++) {
+                tmp.Add(-1);
+            } 
+            this.nbNodes += 1;
+            this.edges.Add(tmp);
+            for (int k = 0 ; k < this.nbNodes ; k++) {
+                this.edges[k].Add(-1);
+            }
+        }
+
+        public void AddEdge(int i, int j, int value) {
+            if ((i > this.nbNodes && j > this.nbNodes) || i == j) {
+
+            } else {
+                if (i == this.nbNodes || j == this.nbNodes) {
+                    this.AddNode();
+                }
+                this.edges[i].Insert(j, value);
+                this.edges[j].Insert(i, value);
+            }
         }
 
     }
@@ -124,4 +148,40 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             return result;
         }
     }
+
+        public class Question6Bis
+    {
+        public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
+        {
+            //TODO: Please work out the solution;
+            if(numOfServers == 0 || numOfServers > connectionTimeMatrix.GetLength(0)) {
+              return -1;
+            }
+            List<int> visited = new List<int>();
+            return lengthPath(targetServer, connectionTimeMatrix, connectionTimeMatrix[targetServer, 0], visited);
+        }
+
+        public static int lengthPath(int startingNode, int[,] graph, int minValue, List<int> visited)
+        {
+          for(int i = 0; i < graph.GetLength(0); i++) {
+            graph[i, i] = 1000000;
+          }
+          if(startingNode == 0) {
+            return 0;
+          }
+          visited.Add(startingNode);
+          List<int> availableNodes = new List<int>();
+          for(int i = 0; i < graph.GetLength(0); i++) {
+            if(!availableNodes.Contains(i) && graph[startingNode, i] <= minValue) {
+              availableNodes.Add(i);
+            }
+          }
+          foreach(int node in availableNodes) {
+            minValue = Math.Min(minValue, graph[startingNode, node] + lengthPath(node, graph, minValue, visited));
+          }
+          return minValue;
+        }
+    }
+
+
 }
