@@ -61,8 +61,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                             alreadyAdded.Add(tmp.Values[j], tmp.Values[j]);
                         } catch (System.ArgumentException _) {
 
-                        }
-                        
+                        } 
                     }
                 }
                 if (job[totalValueOfShares] == int.MaxValue - 1) {
