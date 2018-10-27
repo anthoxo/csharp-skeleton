@@ -7,7 +7,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
     {
         public static int Answer(int[] numOfShares, int totalValueOfShares)
         {
-            Console.WriteLine("Ex : " + totalValueOfShares);
             if (numOfShares.Length == 0) {
                 return 0;
             } else {
@@ -38,7 +37,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                                 job[b+a*k] = 1 + job[b+a*(k-1)];
                                 try {
                                     tmp.Add(b+a*k,b+a*k);
-                                } catch (System.ArgumentException _) {
+                                } catch (System.ArgumentException) {
 
                                 }
                             }
@@ -47,19 +46,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                             }
                         }
                     }
-                    // Console.WriteLine("alreadyAdded : " + numbers.Values[i]);
-                    // foreach (KeyValuePair<int, int> kvp in alreadyAdded) {
-                    //     Console.WriteLine(kvp.Key + "," + kvp.Value);
-                    // }
-
-                    // Console.WriteLine("tmp");
-                    // foreach (KeyValuePair<int, int> kvp in tmp) {
-                    //     Console.WriteLine(kvp.Key + "," + kvp.Value);
-                    // }
                     for (int j = 0 ; j < tmp.Values.Count ; j++) {
                         try {
                             alreadyAdded.Add(tmp.Values[j], tmp.Values[j]);
-                        } catch (System.ArgumentException _) {
+                        } catch (System.ArgumentException) {
 
                         } 
                     }
