@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace C_Sharp_Challenge_Skeleton.Answers
 {
@@ -6,29 +7,30 @@ namespace C_Sharp_Challenge_Skeleton.Answers
     {
         public static int Answer(string[,] machineToBeFixed, int numOfConsecutiveMachines)
         {
-            int result = -1;
+            int result = int.MaxValue - 1;
             int sumTmp = 0;
             for (int i = 0 ; i < machineToBeFixed.GetLength(0) ; i++) {
                 List<int> tmp = new List<int>();
                 for (int j = 0 ; j < machineToBeFixed.GetLength(1) ; j++) {
                     if (machineToBeFixed[i, j] == "X") {
-                        tmp = new List<int>();
+                        tmp.RemoveAll(t => true);
                         sumTmp = 0;
+                        
                     } else {
                         int a = int.Parse(machineToBeFixed[i, j]);
                         sumTmp += a;
                         tmp.Add(a);
                         if (tmp.Count == numOfConsecutiveMachines) {
-                            if (result == -1 || sumTmp < result) {
+                            if (sumTmp < result) {
                                 result = sumTmp;
                             }
                             sumTmp -= tmp[0];
-                            tmp = tmp.GetRange(1, numOfConsecutiveMachines-1);
+                            tmp.RemoveAt(0);
                         }
                     }
                 }
             }
-            return (result == -1) ? 0 : result;
+            return (result == int.MaxValue - 1) ? 0 : result;
         }
     }
 }
