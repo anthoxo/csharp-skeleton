@@ -11,10 +11,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         public static int Answer(int[] portfolios)
         {
             int n = portfolios.Length;
-            if (n == 0) {
+            if (n < 2) {
                 return 0;
-            } else if (n == 1) {
-                return portfolios[0];
             } else {
                 int i,j;
                 int answer = 0;

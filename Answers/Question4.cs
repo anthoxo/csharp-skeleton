@@ -29,7 +29,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                         if (machineToBeFixed[i, j][0] == 'X') {
                             lastX = j;
                             sumTmp = 0;
-                            if (numOfConsecutiveMachines < m-j-1) {
+                            if (m-j-1 < numOfConsecutiveMachines) {
                                 break;
                             }
                         } else {
@@ -41,7 +41,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                                 }
                                 lastX += 1;
                                 sumTmp -= Question4.Parse(machineToBeFixed[i, lastX]);
-                                
                             }
                         }
                     }
