@@ -16,18 +16,20 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         }
         public static int Answer(string[,] machineToBeFixed, int numOfConsecutiveMachines)
         {
-            if (machineToBeFixed.GetLength(1) < numOfConsecutiveMachines) {
+            int m = machineToBeFixed.GetLength(1);
+            if (m < numOfConsecutiveMachines) {
                 return 0;
             } else {
                 int result = int.MaxValue - 1;
                 int sumTmp = 0;
-                for (int i = 0 ; i < machineToBeFixed.GetLength(0) ; i++) {
+                int n = machineToBeFixed.GetLength(0);
+                for (int i = 0 ; i < n ; i++) {
                     int lastX = -1;
-                    for (int j = 0 ; j < machineToBeFixed.GetLength(1) ; j++) {
-                        if (machineToBeFixed[i, j] == "X") {
+                    for (int j = 0 ; j < m ; j++) {
+                        if (machineToBeFixed[i, j][0] == 'X') {
                             lastX = j;
                             sumTmp = 0;
-                            if (numOfConsecutiveMachines < j - lastX) {
+                            if (numOfConsecutiveMachines < m-j-1) {
                                 break;
                             }
                         } else {
