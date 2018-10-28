@@ -14,6 +14,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 SortedList<int, int> numbers = new SortedList<int, int>(new DescendingKeyComparer<int>());
                 SortedList<int, int> alreadyAdded = new SortedList<int, int>(new DescendingKeyComparer<int>());
 
+                List<int> tmpNumbers = new List<int>();
                 int a;
                 int b;
 
@@ -26,10 +27,9 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 }
                 job[0] = 0;
                 alreadyAdded.Add(0, 0); 
-                bool stop = false;
-                for (int i = 0 ; i < numbers.Values.Count && !stop ; i++) {
+                for (int i = 0 ; i < numbers.Values.Count; i++) {
                     SortedList<int,int> tmp = new SortedList<int, int>(new DescendingKeyComparer<int>());
-                    for (int j = 0 ; j < alreadyAdded.Values.Count && !stop; j++) {
+                    for (int j = 0 ; j < alreadyAdded.Values.Count /* && !stop*/; j++) {
                         a = numbers.Values[i];
                         b = alreadyAdded.Values[j];
                         for (int k = 1 ; b + a * k < totalValueOfShares + 1 ; k++) {
@@ -40,9 +40,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                                 } catch (System.ArgumentException) {
 
                                 }
-                            }
-                            if (b + a * k == totalValueOfShares) {
-                                stop = true;
                             }
                         }
                     }
