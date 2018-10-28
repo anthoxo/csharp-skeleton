@@ -20,7 +20,9 @@ namespace C_Sharp_Challenge_Skeleton.Answers
 
                 for (int i = 0 ; i < numOfShares.Length ; i++) {
                     job.Add(-1);
-                    numbers.Add(numOfShares[i], numOfShares[i]);
+                    if (numOfShares[i] > 0) {
+                        numbers.Add(numOfShares[i], numOfShares[i]);
+                    }
                 }
                 for (int i = numOfShares.Length ; i < totalValueOfShares + 1 ; i++) {
                     job.Add(-1);
