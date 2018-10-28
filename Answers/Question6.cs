@@ -156,6 +156,12 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
         {
             //TODO: Please work out the solution;
+            for (int i = 0 ; i < connectionTimeMatrix.GetLength(0) ; i++) {
+                for (int j = 0 ; j < connectionTimeMatrix.GetLength(1) ; j++) {
+                    Console.Write(connectionTimeMatrix[i,j] + ",");
+                }
+                Console.WriteLine();
+            }
             List<List<int>> edges = new List<List<int>>();
             for (int i = 0 ; i < numOfServers ; i++) {
                 List<int> tmpList = new List<int>();
