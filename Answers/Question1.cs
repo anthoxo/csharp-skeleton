@@ -10,19 +10,24 @@ namespace C_Sharp_Challenge_Skeleton.Answers
     {
         public static int Answer(int[] portfolios)
         {
-            //TODO: Please work out the solution;
-            int i,j;
             int n = portfolios.Length;
-            int answer = 0;
-            for (i = 0 ; i < n ; i++) {
-                for (j = i + 1 ; j < n ; j++) {
-                    int t = portfolios[i] ^ portfolios[j];
-                    if (answer < t){
-                        answer = t;
+            if (n == 0) {
+                return 0;
+            } else if (n == 1) {
+                return portfolios[0];
+            } else {
+                int i,j;
+                int answer = 0;
+                for (i = 0 ; i < n ; i++) {
+                    for (j = i + 1 ; j < n ; j++) {
+                        int t = portfolios[i] ^ portfolios[j];
+                        if (answer < t){
+                            answer = t;
+                        }
                     }
                 }
+                return answer;
             }
-            return answer;
         }
     }
 }
