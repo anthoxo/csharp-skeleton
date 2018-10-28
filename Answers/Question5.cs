@@ -31,14 +31,15 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 alreadyAdded.Add(0, 0); 
                 for (int i = 0 ; i < numbers.Values.Count; i++) {
                     SortedList<int,int> tmp = new SortedList<int, int>(new DescendingKeyComparer<int>());
-                    for (int j = 0 ; j < alreadyAdded.Values.Count /* && !stop*/; j++) {
+                    for (int j = 0 ; j < alreadyAdded.Values.Count; j++) {
                         a = numbers.Values[i];
                         b = alreadyAdded.Values[j];
-                        for (int k = 1 ; b + a * k < totalValueOfShares + 1 ; k++) {
-                            if (1 + job[b+a*(k-1)] < job[b+a*k] || job[b+a*k] == -1) {
-                                job[b+a*k] = 1 + job[b+a*(k-1)];
+                        for (int k = 1 ; b + k < totalValueOfShares + 1 ; k = k + a) {
+                            int c = b + k;
+                            if (1 + job[c-a] < job[c] || job[c] == -1) {
+                                job[c] = 1 + job[c-a];
                                 try {
-                                    tmp.Add(b+a*k,b+a*k);
+                                    tmp.Add(c,c);
                                 } catch (System.ArgumentException) {
 
                                 }
