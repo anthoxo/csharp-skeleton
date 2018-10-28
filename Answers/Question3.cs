@@ -15,8 +15,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
 
         public List<int> RunK(List<int> listK, int k) {
             List<int> result = new List<int>();
-            for (int i = 0 ; i * k < listK.Count ; i++) {
-                List<int> tmp = listK.GetRange(i*k, k);
+            for (int i = 0 ; i < listK.Count ; i = i + k) {
+                List<int> tmp = listK.GetRange(i, k);
                 int n = tmp[k-1];
                 for (int j = n ; j < this.graph.nbNodes; j++) {
                     bool pred = true;
@@ -56,8 +56,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 return 0;
             } else {
                 int a = 0;
-                for (int i = 0 ; i * this.k < stables.Count ; i++) {
-                    List<int> tmp = stables.GetRange(i * this.k, this.k);
+                for (int i = 0 ; i < stables.Count ; i = i + this.k) {
+                    List<int> tmp = stables.GetRange(i, this.k);
                     int b = 0;
                     for (int j = 0 ; j < this.graph.nbNodes ; j++) {
                         if (!tmp.Contains(j)) {
