@@ -6,70 +6,74 @@ namespace C_Sharp_Challenge_Skeleton.Answers
 {
     class Solution {
         Graph graph;
+
+        int k;
         public Solution(Graph g) {
             this.graph = g;
+            this.k = 0;
         }
 
-        public List<List<int>> RunK(List<List<int>> listK) {
-            List<List<int>> result = new List<List<int>>();
-            for (int i = 0 ; i < listK.Count ; i++) {
-                List<int> tmp = listK[i];
-                int n = tmp[tmp.Count - 1];
+        public List<int> RunK(List<int> listK, int k) {
+            List<int> result = new List<int>();
+            for (int i = 0 ; i * k < listK.Count ; i++) {
+                List<int> tmp = listK.GetRange(i*k, k);
+                int n = tmp[k-1];
                 for (int j = n ; j < this.graph.nbNodes; j++) {
                     bool pred = true;
-                    for (int k = 0 ; k < tmp.Count && pred; k++) {
-                        if (this.graph.GetEdge(tmp[k], j) == 1 || tmp[k] == j) {
+                    for (int l = 0 ; l < tmp.Count && pred; l++) {
+                        if (this.graph.GetEdge(tmp[l], j) == 1 || tmp[l] == j) {
                             pred = false;
                         }
                     }
                     if (pred) {
                         tmp.Add(j);
-                        result.Add(tmp);
+                        result.AddRange(tmp);
                     }
                 }
             }
             return result;
         }
-        public List<List<int>> FindStables() {
-            List<List<int>> result = new List<List<int>>();
+        public List<int> FindStables() {
+            List<int> result = new List<int>();
             if (this.graph.nbNodes != 0) {
                 for (int i = 0; i < this.graph.nbNodes ; i++) {
-                    List<int> tmpList = new List<int>();
-                    tmpList.Add(i);
-                    result.Add(tmpList);
+                    result.Add(i);
                 }
-                int k = 0;
-                List<List<int>> tmp = result;
+                this.k = 0;
+                List<int> tmp = result;
                 while (tmp.Count != 0) {
-                    k += 1;
+                    this.k += 1;
                     result = tmp;
-                    tmp = this.RunK(result);
+                    tmp = this.RunK(result, this.k);
                 }
             }
             return result;
         }
 
         public int FindSolution() {
-            List<List<int>> stables = this.FindStables();
-            int a1 = stables[0].Count;
-            int a = 0;
-            for (int i = 0 ; i < stables.Count ; i++) {
-                int b = 0;
-                for (int j = 0 ; j < this.graph.nbNodes ; j++) {
-                    if (!stables[i].Contains(j)) {
-                        bool pred = false;
-                        for (int k = 0 ; k < stables[i].Count && !pred; k++) {
-                            if (this.graph.GetEdge(stables[i][k], j) == 1) { 
-                                b += 1;
-                                pred = true;
+            List<int> stables = this.FindStables();
+            if (stables.Count == 0) {
+                return 0;
+            } else {
+                int a = 0;
+                for (int i = 0 ; i * this.k < stables.Count ; i++) {
+                    List<int> tmp = stables.GetRange(i * this.k, this.k);
+                    int b = 0;
+                    for (int j = 0 ; j < this.graph.nbNodes ; j++) {
+                        if (!tmp.Contains(j)) {
+                            bool pred = false;
+                            for (int l = 0 ; l < tmp.Count && !pred; l++) {
+                                if (this.graph.GetEdge(tmp[l], j) == 1) { 
+                                    b += 1;
+                                    pred = true;
+                                }
                             }
                         }
                     }
+                    a = (a < this.k-b) ? this.k-b : a;
                 }
-                a = (a < a1-b) ? a1-b : a;
+                return a;
             }
-            
-            return a; 
         }
     }
     public class Question3
