@@ -20,7 +20,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             if (m < numOfConsecutiveMachines) {
                 return 0;
             } else {
-                int result = int.MaxValue - 1;
+                int result = int.MaxValue;
                 int sumTmp = 0;
                 int n = machineToBeFixed.GetLength(0);
                 for (int i = 0 ; i < n ; i++) {
