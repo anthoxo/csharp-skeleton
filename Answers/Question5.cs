@@ -11,8 +11,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 return 0;
             } else {
                 List<int> job = new List<int>();
-                SortedList<int, int> numbers = new SortedList<int, int>(new DescendingKeyComparer<int>());
-                SortedList<int, int> alreadyAdded = new SortedList<int, int>(new DescendingKeyComparer<int>());
+                SortedSet<int> numbers = new SortedSet<int>(new DescendingKeyComparer<int>());
+                SortedSet<int> alreadyAdded = new SortedSet<int>(new DescendingKeyComparer<int>());
 
                 List<int> tmpNumbers = new List<int>();
                 int a;
@@ -21,35 +21,31 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 for (int i = 0 ; i < numOfShares.Length ; i++) {
                     job.Add(-1);
                     if (numOfShares[i] > 0) {
-                        numbers.Add(numOfShares[i], numOfShares[i]);
+                        numbers.Add(numOfShares[i]);
                     }
                 }
                 for (int i = numOfShares.Length ; i < totalValueOfShares + 1 ; i++) {
                     job.Add(-1);
                 }
                 job[0] = 0;
-                alreadyAdded.Add(0, 0); 
-                for (int i = 0 ; i < numbers.Values.Count; i++) {
-                    SortedList<int,int> tmp = new SortedList<int, int>(new DescendingKeyComparer<int>());
-                    for (int j = 0 ; j < alreadyAdded.Values.Count; j++) {
-                        a = numbers.Values[i];
-                        b = alreadyAdded.Values[j];
+                alreadyAdded.Add(0);
+                foreach(int number in numbers) {
+                    List<int> tmp = new List<int>();
+                    foreach (int added in alreadyAdded) {
+                        a = number;
+                        b = added;
                         
                         for (int k = a ; b + k < totalValueOfShares + 1 ; k = k + a) {
                             int c = b + k;
                             if (1 + job[c-a] < job[c] || job[c] == -1) {
                                 job[c] = 1 + job[c-a];
-                                try {
-                                    tmp.Add(c,c);
-                                } catch (System.ArgumentException) {
-
-                                }
+                                tmp.Add(c);
                             }
                         }
                     }
-                    for (int j = 0 ; j < tmp.Values.Count ; j++) {
+                    foreach (int tmpValue in tmp) {
                         try {
-                            alreadyAdded.Add(tmp.Values[j], tmp.Values[j]);
+                            alreadyAdded.Add(tmpValue);
                         } catch (System.ArgumentException) {
 
                         } 
