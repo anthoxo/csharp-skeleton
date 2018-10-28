@@ -34,7 +34,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                     for (int j = 0 ; j < alreadyAdded.Values.Count; j++) {
                         a = numbers.Values[i];
                         b = alreadyAdded.Values[j];
-                        for (int k = 1 ; b + k < totalValueOfShares + 1 ; k = k + a) {
+                        
+                        for (int k = a ; b + k < totalValueOfShares + 1 ; k = k + a) {
                             int c = b + k;
                             if (1 + job[c-a] < job[c] || job[c] == -1) {
                                 job[c] = 1 + job[c-a];
