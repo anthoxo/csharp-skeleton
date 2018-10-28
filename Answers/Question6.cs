@@ -151,6 +151,9 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
         {
             //TODO: Please work out the solution;
+            if (numOfServers < 2) {
+                return 0;
+            }
             List<int> edges = new List<int>();
             for (int i = 0 ; i < numOfServers ; i++) {
                 for (int j = 0 ; j < numOfServers ; j++) {
