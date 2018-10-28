@@ -29,34 +29,29 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             get;
             set;
         }
-        public List<List<int>> edges {
+        public List<int> edges {
             get;
         }
         public Graph() {
             this.nbNodes = 0;
-            this.edges = new List<List<int>>();
+            this.edges = new List<int>();
         }
-        public Graph(int nbNodes, List<List<int>> edges) {
+        public Graph(int nbNodes, List<int> edges) {
             this.nbNodes = nbNodes;
             this.edges = edges;
         }
 
-        public List<int> GetNodes(int i) {
-            return this.edges[i];
-        }
-
         public int GetEdge(int i, int j) {
-            return this.edges[i][j];
+            return this.edges[i * this.nbNodes + j];
         }
         public void AddNode() {
-            List<int> tmp = new List<int>();
-            for (int i = 0 ; i < this.nbNodes ; i++) {
-                tmp.Add(-1);
-            } 
+            // à tester dans Test.cs
+            for (int i = this.nbNodes - 1 ; i >= 0 ; i--) {
+                this.edges.Insert(i * this.nbNodes + this.nbNodes, -1);
+            }
             this.nbNodes += 1;
-            this.edges.Add(tmp);
-            for (int k = 0 ; k < this.nbNodes ; k++) {
-                this.edges[k].Add(-1);
+            for (int i = 0 ; i < this.nbNodes ; i++) {
+                this.edges.Add(-1);
             }
         }
 
@@ -67,8 +62,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 if (i == this.nbNodes || j == this.nbNodes) {
                     this.AddNode();
                 }
-                this.edges[i][j] = value;
-                this.edges[j][i] = value;
+                this.edges[i * this.nbNodes + j] = value;
+                this.edges[j * this.nbNodes + i] = value;
             }
         }
     }
@@ -156,19 +151,11 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
         {
             //TODO: Please work out the solution;
-            for (int i = 0 ; i < connectionTimeMatrix.GetLength(0) ; i++) {
-                for (int j = 0 ; j < connectionTimeMatrix.GetLength(1) ; j++) {
-                    Console.Write(connectionTimeMatrix[i,j] + ",");
-                }
-                Console.WriteLine();
-            }
-            List<List<int>> edges = new List<List<int>>();
+            List<int> edges = new List<int>();
             for (int i = 0 ; i < numOfServers ; i++) {
-                List<int> tmpList = new List<int>();
                 for (int j = 0 ; j < numOfServers ; j++) {
-                    tmpList.Add(connectionTimeMatrix[i, j]);
+                    edges.Add(connectionTimeMatrix[i, j]);
                 }
-                edges.Add(tmpList);
             }
             Graph g = new Graph(numOfServers, edges);
             Dijkstra dijkstra = new Dijkstra(g, targetServer);
