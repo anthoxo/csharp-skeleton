@@ -16,18 +16,20 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         public List<int> RunK(List<int> listK, int k) {
             List<int> result = new List<int>();
             for (int i = 0 ; i < listK.Count ; i = i + k) {
-                List<int> tmp = listK.GetRange(i, k);
-                int n = tmp[k-1];
+                int n = listK[i+k-1];
                 for (int j = n ; j < this.graph.nbNodes; j++) {
                     bool pred = true;
-                    for (int l = 0 ; l < tmp.Count && pred; l++) {
-                        if (this.graph.GetEdge(tmp[l], j) == 1 || tmp[l] == j) {
+                    for (int l = i ; l < i + k; l++) {
+                        if (this.graph.GetEdge(listK[l], j) == 1 || listK[l] == j) {
                             pred = false;
+                            break;
                         }
                     }
                     if (pred) {
-                        tmp.Add(j);
-                        result.AddRange(tmp);
+                        for (int l = i ; l < i + k ; l++) {
+                            result.Add(listK[l]);
+                        }
+                        result.Add(j);
                     }
                 }
             }
@@ -57,16 +59,14 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             } else {
                 int a = 0;
                 for (int i = 0 ; i < stables.Count ; i = i + this.k) {
-                    List<int> tmp = stables.GetRange(i, this.k);
                     int b = 0;
                     for (int j = 0 ; j < this.graph.nbNodes ; j++) {
-                        if (!tmp.Contains(j)) {
-                            bool pred = false;
-                            for (int l = 0 ; l < tmp.Count && !pred; l++) {
-                                if (this.graph.GetEdge(tmp[l], j) == 1) { 
-                                    b += 1;
-                                    pred = true;
-                                }
+                        for (int l = i ; l < i + this.k; l++) {
+                            if (stables[l] == j) {
+                                break;
+                            } else if (this.graph.GetEdge(stables[l], j) == 1) { 
+                                b += 1;
+                                break;
                             }
                         }
                     }
