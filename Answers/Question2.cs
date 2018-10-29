@@ -9,17 +9,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             public Dictionary<int, int> dicoIn;
             public Dictionary<int, int> dicoOut;
             public void GeneratePartitions(int[] cashflowIn, int[] cashflowOut) {
-                Console.WriteLine("cashflowIN");
-                for (int i = 0 ; i < cashflowIn.Length ; i++) {
-                    Console.Write(cashflowIn[i] + ",");
-                }
-                Console.WriteLine();
-                Console.WriteLine("cashflowOUT");
-                for (int i = 0 ; i < cashflowOut.Length ; i++) {
-                    Console.Write(cashflowOut[i] + ",");
-                }
-                Console.WriteLine();
-
                 this.dicoIn = new Dictionary<int, int>();
                 this.dicoOut = new Dictionary<int, int>();
                 int m1 = (cashflowIn.Length < cashflowOut.Length) ? cashflowIn.Length : cashflowOut.Length;
@@ -53,7 +42,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
 
             public SortedSet<int> FindAllSum(Dictionary<int,int> dico) {
                 List<int> alreadyAdded = new List<int>();
+                Console.WriteLine("dico");
                 foreach (KeyValuePair<int,int> kvp in dico) {
+                Console.WriteLine(kvp.Key + "," + kvp.Value);
+
                     List<int> tmp = new List<int>();
                     int a = kvp.Key;
                     for (int i = 0 ; i < kvp.Value ; i++) {
@@ -136,6 +128,17 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         }
         public static int Answer(int[] cashflowIn, int[] cashflowOut)
         {            
+            Console.WriteLine("cashflowIN");
+            for (int i = 0 ; i < cashflowIn.Length ; i++) {
+                Console.Write(cashflowIn[i] + ",");
+            }
+            Console.WriteLine();
+            Console.WriteLine("cashflowOUT");
+            for (int i = 0 ; i < cashflowOut.Length ; i++) {
+                Console.Write(cashflowOut[i] + ",");
+            }
+            Console.WriteLine();
+
             Solution s = new Solution();
             if (cashflowIn.Length == 0) {
                 return s.GetMin(cashflowOut);
