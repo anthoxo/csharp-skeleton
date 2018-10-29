@@ -68,10 +68,12 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 for (int i = 0 ; i < n ; i++) {
                     int number = numOfShares[i];
                     if (number > 0) {
-                        for (int k = number ; k < totalValueOfShares + 1 ; k++) {
-                            int r = job[k - number] + 1;
-                            if (r < job[k]) {
-                                job[k] = r;
+                        for (int k = 1 ; k < totalValueOfShares + 1 ; k++) {
+                            if (number <= k) {
+                                int r = job[k - number] + 1;
+                                if (r < job[k]) {
+                                    job[k] = r;
+                                }
                             }
                         }
                     }
