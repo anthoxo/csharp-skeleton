@@ -9,6 +9,17 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             public Dictionary<int, int> dicoIn;
             public Dictionary<int, int> dicoOut;
             public void GeneratePartitions(int[] cashflowIn, int[] cashflowOut) {
+                Console.WriteLine("cashflowIN");
+                for (int i = 0 ; i < cashflowIn.Length ; i++) {
+                    Console.Write(cashflowIn[i] + ",");
+                }
+                Console.WriteLine();
+                Console.WriteLine("cashflowOUT");
+                for (int i = 0 ; i < cashflowOut.Length ; i++) {
+                    Console.Write(cashflowOut[i] + ",");
+                }
+                Console.WriteLine();
+
                 this.dicoIn = new Dictionary<int, int>();
                 this.dicoOut = new Dictionary<int, int>();
                 int m1 = (cashflowIn.Length < cashflowOut.Length) ? cashflowIn.Length : cashflowOut.Length;
@@ -66,11 +77,9 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 l1.Add(0);
                 l2.Add(0);
                 foreach (int a1 in l1) {
-                    int tmpMin = int.MaxValue;
-                    int increase = -1;
                     foreach (int a2 in l2) {
                         if (a1 == 0 && a2 ==0) {
-                            
+
                         } else {
                             int t = (a1 < a2) ? a2 - a1 : a1 - a2;
                             if (t == 0) {
@@ -78,16 +87,34 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                             } else {
                                 if (t < min) {
                                     min = t;
-                                    increase = 0;
-                                } else if (increase == 0 || tmpMin < t) {
-                                    break;
-                                } else {
-                                    tmpMin = t;
                                 }
                             }
                         }
                     }
                 }
+                // foreach (int a1 in l1) {
+                //     int tmpMin = int.MaxValue;
+                //     int increase = -1;
+                //     foreach (int a2 in l2) {
+                //         if (a1 == 0 && a2 ==0) {
+
+                //         } else {
+                //             int t = (a1 < a2) ? a2 - a1 : a1 - a2;
+                //             if (t == 0) {
+                //                 return 0;
+                //             } else {
+                //                 if (t < min) {
+                //                     min = t;
+                //                     increase = 0;
+                //                 } else if (increase == 0 || tmpMin < t) {
+                //                     break;
+                //                 } else {
+                //                     tmpMin = t;
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
                 return min;
             }
 
