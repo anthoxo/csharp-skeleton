@@ -155,11 +155,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
         {
             //TODO: Please work out the solution;
-            Console.WriteLine("Bonjour");
-            Console.WriteLine("n : " + numOfServers);
-            Console.WriteLine("targetServer : " + targetServer);
-            Console.WriteLine("size of matrix : " + connectionTimeMatrix.GetLength(0) + "," + connectionTimeMatrix.GetLength(1));
-            if (numOfServers < 2) {
+            if (numOfServers < 2 || targetServer == 0) {
                 return 0;
             }
             List<int> edges = new List<int>();
