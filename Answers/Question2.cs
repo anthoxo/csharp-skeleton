@@ -42,16 +42,12 @@ namespace C_Sharp_Challenge_Skeleton.Answers
 
             public SortedSet<int> FindAllSum(Dictionary<int,int> dico) {
                 List<int> alreadyAdded = new List<int>();
-                Console.WriteLine("dico");
                 foreach (KeyValuePair<int,int> kvp in dico) {
-                Console.WriteLine(kvp.Key + "," + kvp.Value);
-
                     List<int> tmp = new List<int>();
                     int a = kvp.Key;
                     for (int i = 0 ; i < kvp.Value ; i++) {
                         foreach (int kk in alreadyAdded) {
                             tmp.Add(kk + a);
-                            a += kvp.Key;
                         }
                     }
                     a = kvp.Key;
@@ -65,6 +61,12 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             }
 
             public int FindMinDistance(SortedSet<int> l1, SortedSet<int> l2) {
+                Console.WriteLine("Tab L1");
+                foreach (int i in  l1) {
+                    Console.Write(i + ",");
+                }
+                Console.WriteLine();
+
                 int min = 1000;
                 l1.Add(0);
                 l2.Add(0);
@@ -84,29 +86,36 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                         }
                     }
                 }
-                // foreach (int a1 in l1) {
-                //     int tmpMin = int.MaxValue;
-                //     int increase = -1;
-                //     foreach (int a2 in l2) {
-                //         if (a1 == 0 && a2 ==0) {
+                return min;
+            }
+            public int FindMinDistance2(SortedSet<int> l1, SortedSet<int> l2) {
+                int min = 1000;
+                l1.Add(0);
+                l2.Add(0);
 
-                //         } else {
-                //             int t = (a1 < a2) ? a2 - a1 : a1 - a2;
-                //             if (t == 0) {
-                //                 return 0;
-                //             } else {
-                //                 if (t < min) {
-                //                     min = t;
-                //                     increase = 0;
-                //                 } else if (increase == 0 || tmpMin < t) {
-                //                     break;
-                //                 } else {
-                //                     tmpMin = t;
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
+                foreach (int a1 in l1) {
+                    int tmpMin = int.MaxValue;
+                    int increase = -1;
+                    foreach (int a2 in l2) {
+                        if (a1 == 0 && a2 ==0) {
+
+                        } else {
+                            int t = (a1 < a2) ? a2 - a1 : a1 - a2;
+                            if (t == 0) {
+                                return 0;
+                            } else {
+                                if (t < min) {
+                                    min = t;
+                                    increase = 0;
+                                } else if (increase == 0 || tmpMin < t) {
+                                    break;
+                                } else {
+                                    tmpMin = t;
+                                }
+                            }
+                        }
+                    }
+                }
                 return min;
             }
 
@@ -114,6 +123,12 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 this.GeneratePartitions(cashflowIn, cashflowOut);
                 return this.FindMinDistance(this.FindAllSum(this.dicoIn), this.FindAllSum(this.dicoOut));
             }
+
+            public int Run2(int[] cashflowIn, int[] cashflowOut) {
+                this.GeneratePartitions(cashflowIn, cashflowOut);
+                return this.FindMinDistance2(this.FindAllSum(this.dicoIn), this.FindAllSum(this.dicoOut));
+            }
+
 
             public int GetMin(int[] tab) {
                 int r = int.MaxValue;
@@ -128,17 +143,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         }
         public static int Answer(int[] cashflowIn, int[] cashflowOut)
         {            
-            Console.WriteLine("cashflowIN");
-            for (int i = 0 ; i < cashflowIn.Length ; i++) {
-                Console.Write(cashflowIn[i] + ",");
-            }
-            Console.WriteLine();
-            Console.WriteLine("cashflowOUT");
-            for (int i = 0 ; i < cashflowOut.Length ; i++) {
-                Console.Write(cashflowOut[i] + ",");
-            }
-            Console.WriteLine();
-
             Solution s = new Solution();
             if (cashflowIn.Length == 0) {
                 return s.GetMin(cashflowOut);
@@ -148,5 +152,18 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 return s.Run(cashflowIn, cashflowOut);
             }
         }
+
+        public static int Answer2(int[] cashflowIn, int[] cashflowOut)
+        {            
+            Solution s = new Solution();
+            if (cashflowIn.Length == 0) {
+                return s.GetMin(cashflowOut);
+            } else if (cashflowOut.Length == 0) {
+                return s.GetMin(cashflowIn);
+            } else {
+                return s.Run2(cashflowIn, cashflowOut);
+            }
+        }
+
     }
 }
