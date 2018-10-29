@@ -40,7 +40,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 }
             }
 
-            public SortedSet<int> FindAllSum(Dictionary<int,int> dico) {
+            public List<int> FindAllSum(Dictionary<int,int> dico) {
                 List<int> alreadyAdded = new List<int>();
                 foreach (KeyValuePair<int,int> kvp in dico) {
                     List<int> tmp = new List<int>();
@@ -57,42 +57,97 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                     }
                     alreadyAdded.AddRange(tmp);
                 }
-                return new SortedSet<int>(alreadyAdded);
+                alreadyAdded.Sort();
+                return alreadyAdded;
             }
 
-            public int FindMinDistance(SortedSet<int> l1, SortedSet<int> l2) {
-                int min = 1000;
-                l1.Add(0);
-                l2.Add(0);
-
-                foreach (int a1 in l1) {
-                    int tmpMin = int.MaxValue;
-                    int increase = -1;
-                    foreach (int a2 in l2) {
-                        if (a1 == 0 && a2 ==0) {
-
-                        } else {
-                            int t = (a1 < a2) ? a2 - a1 : a1 - a2;
-                            if (t == 0) {
-                                return 0;
-                            } else {
-                                if (t < min) {
-                                    min = t;
-                                    increase = 0;
-                                } else if (increase == 0 || tmpMin < t) {
-                                    break;
-                                } else {
-                                    tmpMin = t;
-                                }
-                            }
+            public int FindMinDistance(List<int> l1, List<int> l2) {
+                int min = (l1[0] < l2[0]) ? l1[0] : l2[0];
+                int i = 0;
+                int j = 0;
+                int n = l1.Count;
+                int m = l2.Count;
+                while (i < n && j < m) {
+                    int a1 = l1[i];
+                    int a2 = l2[j];
+                    int t;
+                    if (a1 < a2) {
+                        i++;
+                        t = a2 - a1;
+                        if (t < min) {
+                            min = t;
                         }
+                    } else {
+                        j++;
+                        t = a1 - a2;
+                        if (t < min) {
+                            min = t;
+                        }
+                    }
+                    if (min == 0) {
+                        return 0;
                     }
                 }
                 return min;
-            }
-            public int FindMinDistance2(SortedSet<int> l1, SortedSet<int> l2) {
-                return 0;
 
+                // int min = 1000;
+                // l1.Insert(0, 0);
+                // l2.Insert(0, 0);
+
+                // foreach (int a1 in l1) {
+                //     int tmpMin = int.MaxValue;
+                //     int increase = -1;
+                //     foreach (int a2 in l2) {
+                //         //Console.WriteLine("(" + a1 + "," + a2 + ")");
+                //         if (a1 == 0 && a2 ==0) {
+
+                //         } else {
+                //             int t = (a1 < a2) ? a2 - a1 : a1 - a2;
+                //             if (t == 0) {
+                //                 return 0;
+                //             } else {
+                //                 if (t < min) {
+                //                     min = t;
+                //                     increase = 0;
+                //                 } else if (increase == 0 || tmpMin < t) {
+                //                     break;
+                //                 } else {
+                //                     tmpMin = t;
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+                // return min;
+            }
+            public int FindMinDistance2(List<int> l1, List<int> l2) {
+                int min = (l1[0] < l2[0]) ? l1[0] : l2[0];
+                int i = 0;
+                int j = 0;
+                int n = l1.Count;
+                int m = l2.Count;
+                while (i < n && j < m) {
+                    int a1 = l1[i];
+                    int a2 = l2[j];
+                    int t;
+                    if (a1 < a2) {
+                        i++;
+                        t = a2 - a1;
+                        if (t < min) {
+                            min = t;
+                        }
+                    } else {
+                        j++;
+                        t = a1 - a2;
+                        if (t < min) {
+                            min = t;
+                        }
+                    }
+                    if (min == 0) {
+                        return 0;
+                    }
+                }
+                return min;
             }
 
             public int Run(int[] cashflowIn, int[] cashflowOut) {
