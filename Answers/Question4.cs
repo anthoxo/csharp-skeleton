@@ -21,10 +21,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 return 0;
             } else {
                 int result = int.MaxValue;
-                int sumTmp = 0;
                 int n = machineToBeFixed.GetLength(0);
                 for (int i = 0 ; i < n ; i++) {
                     int lastX = -1;
+                    int sumTmp = 0;
                     for (int j = 0 ; j < m ; j++) {
                         if (machineToBeFixed[i, j][0] == 'X') {
                             lastX = j;
