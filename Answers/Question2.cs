@@ -63,21 +63,27 @@ namespace C_Sharp_Challenge_Skeleton.Answers
 
             public int FindMinDistance(SortedSet<int> l1, SortedSet<int> l2) {
                 int min = 1000;
+                l1.Add(0);
+                l2.Add(0);
                 foreach (int a1 in l1) {
                     int tmpMin = int.MaxValue;
                     int increase = -1;
                     foreach (int a2 in l2) {
-                        int t = (a1 < a2) ? a2 - a1 : a1 - a2;
-                        if (t == 0) {
-                            return 0;
+                        if (a1 == 0 && a2 ==0) {
+                            
                         } else {
-                            if (t < min) {
-                                min = t;
-                                increase = 0;
-                            } else if (increase == 0 || tmpMin < t) {
-                                break;
+                            int t = (a1 < a2) ? a2 - a1 : a1 - a2;
+                            if (t == 0) {
+                                return 0;
                             } else {
-                                tmpMin = t;
+                                if (t < min) {
+                                    min = t;
+                                    increase = 0;
+                                } else if (increase == 0 || tmpMin < t) {
+                                    break;
+                                } else {
+                                    tmpMin = t;
+                                }
                             }
                         }
                     }
@@ -89,11 +95,28 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 this.GeneratePartitions(cashflowIn, cashflowOut);
                 return this.FindMinDistance(this.FindAllSum(this.dicoIn), this.FindAllSum(this.dicoOut));
             }
+
+            public int GetMin(int[] tab) {
+                int r = int.MaxValue;
+                for (int i = 0 ; i < tab.Length ; i++) {
+                    int t = tab[i];
+                    if (t < r) {
+                        r = t;
+                    }
+                }
+                return r;
+            }
         }
         public static int Answer(int[] cashflowIn, int[] cashflowOut)
         {            
             Solution s = new Solution();
-            return s.Run(cashflowIn, cashflowOut);
+            if (cashflowIn.Length == 0) {
+                return s.GetMin(cashflowOut);
+            } else if (cashflowOut.Length == 0) {
+                return s.GetMin(cashflowIn);
+            } else {
+                return s.Run(cashflowIn, cashflowOut);
+            }
         }
     }
 }
