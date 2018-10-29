@@ -10,20 +10,20 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 return 0;
             } else {
                 List<int> job = new List<int>();
-                SortedSet<int> numbers = new SortedSet<int>(new DescendingKeyComparer<int>());
-                SortedSet<int> alreadyAdded = new SortedSet<int>(new DescendingKeyComparer<int>());
+                List<int> numbers = new List<int>();
+                List<int> alreadyAdded = new List<int>();
 
                 int a;
                 int b;
 
                 for (int i = 0 ; i < numOfShares.Length ; i++) {
-                    job.Add(-1);
+                    job.Add(int.MaxValue);
                     if (numOfShares[i] > 0) {
                         numbers.Add(numOfShares[i]);
                     }
                 }
                 for (int i = numOfShares.Length ; i < totalValueOfShares + 1 ; i++) {
-                    job.Add(-1);
+                    job.Add(int.MaxValue);
                 }
                 job[0] = 0;
                 alreadyAdded.Add(0);
@@ -35,21 +35,15 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                         
                         for (int k = a ; b + k < totalValueOfShares + 1 ; k = k + a) {
                             int c = b + k;
-                            if (1 + job[c-a] < job[c] || job[c] == -1) {
+                            if (1 + job[c-a] < job[c]) {
                                 job[c] = 1 + job[c-a];
                                 tmp.Add(c);
                             }
                         }
                     }
-                    foreach (int tmpValue in tmp) {
-                        try {
-                            alreadyAdded.Add(tmpValue);
-                        } catch (System.ArgumentException) {
-
-                        } 
-                    }
+                    alreadyAdded.AddRange(tmp);
                 }
-                if (job[totalValueOfShares] == - 1) {
+                if (job[totalValueOfShares] == int.MaxValue) {
                     return 0;
                 } else {
                     return job[totalValueOfShares];
@@ -62,22 +56,19 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 return 0;
             } else {
                 List<int> job = new List<int>();
-                SortedSet<int> numbers = new SortedSet<int>(new DescendingKeyComparer<int>());
-                for (int i = 0 ; i < numOfShares.Length ; i++) {
-                    job.Add(10000);
-                    if (numOfShares[i] > 0) {
-                        numbers.Add(numOfShares[i]);
-                    }
-                }
-                for (int i = numOfShares.Length ; i < totalValueOfShares + 1 ; i++) {
+                for (int i = 0 ; i < totalValueOfShares + 1 ; i++) {
                     job.Add(10000);
                 }
                 job[0] = 0;
-                foreach(int number in numbers) {
-                    for (int k = 1 ; k < totalValueOfShares + 1 ; k++) {
-                        if (number <= k) {
-                            if (1 + job[k - number] < job[k]) {
-                                job[k] = 1 + job[k - number];
+                int n = numOfShares.Length;
+                for (int i = 0 ; i < n ; i++) {
+                    int number = numOfShares[i];
+                    if (number > 0) {
+                        for (int k = 1 ; k < totalValueOfShares + 1 ; k++) {
+                            if (number <= k) {
+                                if (1 + job[k - number] < job[k]) {
+                                    job[k] = 1 + job[k - number];
+                                }
                             }
                         }
                     }
