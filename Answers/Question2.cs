@@ -61,34 +61,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             }
 
             public int FindMinDistance(SortedSet<int> l1, SortedSet<int> l2) {
-                Console.WriteLine("Tab L1");
-                foreach (int i in  l1) {
-                    Console.Write(i + ",");
-                }
-                Console.WriteLine();
-
-                int min = 1000;
-                l1.Add(0);
-                l2.Add(0);
-                foreach (int a1 in l1) {
-                    foreach (int a2 in l2) {
-                        if (a1 == 0 && a2 ==0) {
-
-                        } else {
-                            int t = (a1 < a2) ? a2 - a1 : a1 - a2;
-                            if (t == 0) {
-                                return 0;
-                            } else {
-                                if (t < min) {
-                                    min = t;
-                                }
-                            }
-                        }
-                    }
-                }
-                return min;
-            }
-            public int FindMinDistance2(SortedSet<int> l1, SortedSet<int> l2) {
                 int min = 1000;
                 l1.Add(0);
                 l2.Add(0);
@@ -117,6 +89,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                     }
                 }
                 return min;
+            }
+            public int FindMinDistance2(SortedSet<int> l1, SortedSet<int> l2) {
+                return 0;
+
             }
 
             public int Run(int[] cashflowIn, int[] cashflowOut) {
