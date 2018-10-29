@@ -113,9 +113,12 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             return this.indiceMin;
         }
 
-        public void majDistance(int s1, int s2, int d1, int d2) {
+        public int majDistance(int s1, int s2, int d1, int d2) {
             if (d2 > d1) {
                 this.distance[s2] = d1;
+                return d1;
+            } else {
+                return d2;
             }
         }
 
@@ -128,15 +131,12 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 for (int i = 0 ; i < this.graph.nbNodes ; i++) {
                     if (!this.alreadySeen[i]) {
                         int edge = this.graph.GetEdge(ind, i);
-                        if (edge != -1) {
-                            int d2 = this.distance[i];
-                            int d1 = this.distance[ind] + edge;
-                            this.majDistance(ind, i, d1, d2);
-                            d2 = this.distance[i];
-                            if (d2 < this.valueIndiceMin) {
-                                this.indiceMin = i;
-                                this.valueIndiceMin = d2;
-                            }
+                        int d2 = this.distance[i];
+                        int d1 = this.distance[ind] + edge;
+                        d2 = this.majDistance(ind, i, d1, d2);
+                        if (d2 < this.valueIndiceMin) {
+                            this.indiceMin = i;
+                            this.valueIndiceMin = d2;
                         }
                     }  
                 }
