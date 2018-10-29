@@ -45,7 +45,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                         }
                     }
                 }
-                return (result == int.MaxValue - 1) ? 0 : result;
+                return (result == int.MaxValue) ? 0 : result;
             }
             // List<List<string>> machines = new List<List<string>>();
             // for (int i = 0 ; i < machineToBeFixed.GetLength(0) ; i++) {

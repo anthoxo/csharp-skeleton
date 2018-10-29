@@ -28,20 +28,20 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 job[0] = 0;
                 alreadyAdded.Add(0);
                 foreach(int number in numbers) {
-                    List<int> tmp = new List<int>();
-                    foreach (int added in alreadyAdded) {
+                    List<int> tmp = new List<int>(alreadyAdded);
+                    foreach (int added in tmp) {
                         a = number;
                         b = added;
                         
                         for (int k = a ; b + k < totalValueOfShares + 1 ; k = k + a) {
                             int c = b + k;
-                            if (1 + job[c-a] < job[c]) {
-                                job[c] = 1 + job[c-a];
-                                tmp.Add(c);
+                            int t = job[c-a];
+                            if (1 + t < job[c]) {
+                                job[c] = 1 + t;
+                                alreadyAdded.Add(c);
                             }
                         }
                     }
-                    alreadyAdded.AddRange(tmp);
                 }
                 if (job[totalValueOfShares] == int.MaxValue) {
                     return 0;

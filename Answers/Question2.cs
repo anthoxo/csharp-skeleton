@@ -89,14 +89,33 @@ namespace C_Sharp_Challenge_Skeleton.Answers
 
             public int FindMinDistance(SortedSet<int> l1, SortedSet<int> l2) {
                 int min = 1000;
+                // foreach (int a1 in l1) {
+                //     foreach (int a2 in l2) {
+                //         if (a1 - a2 == 0) {
+                //             return 0;
+                //         } else {
+                //             int t = Math.Abs(a1-a2);
+                //             if (t < min) {
+                //                 min = t;
+                //             }
+                //         }
+                //     }
+                // }
                 foreach (int a1 in l1) {
+                    int tmpMin = int.MaxValue;
+                    int increase = -1;
                     foreach (int a2 in l2) {
-                        if (a1 - a2 == 0) {
+                        int t = (a1 < a2) ? a2 - a1 : a1 - a2;
+                        if (t == 0) {
                             return 0;
                         } else {
-                            int t = Math.Abs(a1-a2);
                             if (t < min) {
                                 min = t;
+                                increase = 0;
+                            } else if (increase == 0 || tmpMin < t) {
+                                break;
+                            } else {
+                                tmpMin = t;
                             }
                         }
                     }

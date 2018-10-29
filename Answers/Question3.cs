@@ -62,9 +62,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                     int b = 0;
                     for (int j = 0 ; j < this.graph.nbNodes ; j++) {
                         for (int l = i ; l < i + this.k; l++) {
-                            if (stables[l] == j) {
+                            int t = stables[l];
+                            if (t == j) {
                                 break;
-                            } else if (this.graph.GetEdge(stables[l], j) == 1) { 
+                            } else if (this.graph.GetEdge(t, j) == 1) { 
                                 b += 1;
                                 break;
                             }
