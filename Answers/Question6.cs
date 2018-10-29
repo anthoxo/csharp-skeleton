@@ -84,66 +84,70 @@ namespace C_Sharp_Challenge_Skeleton.Answers
     }
     class Dijkstra {
         public Graph graph;
-        List<int> alreadySeen;
-        List<Data> notSeen;
+        List<bool> alreadySeen;
+        List<int> distance;
         int finalNode;
+        
         public Dijkstra(Graph graph, int finalNode) {
             this.graph = graph;
-            this.alreadySeen = new List<int>();
-            this.notSeen = new List<Data>();
+            this.alreadySeen = new List<bool>();
+            this.distance = new List<int>();
             this.finalNode = finalNode;
             this.InitValues();
         }
         public void InitValues() {
             List<int> t = new List<int>();
-            this.notSeen.Add(new Data(0, 0));
-            this.alreadySeen.Add(int.MaxValue-1);
+            this.distance.Add(0);
+            this.alreadySeen.Add(false);
             for (int i = 1 ; i < this.graph.nbNodes ; i++) {
-                this.notSeen.Add(new Data(i, int.MaxValue - 1));
-                this.alreadySeen.Add(int.MaxValue-1);
+                this.distance.Add(int.MaxValue);
+                this.alreadySeen.Add(false);
             }
         }
         public int FindIndexMin() {
             int r = 0;
-            int m = int.MaxValue - 2;
-            for (int i = 0 ; i < this.notSeen.Count ; i++) {
-                if (this.notSeen[i].v < m) {
-                    r = i;
-                    m = this.notSeen[i].v;
+            int m = int.MaxValue;
+            for (int i = 0 ; i < this.graph.nbNodes ; i++) {
+                if (!this.alreadySeen[i]) {
+                    int t = this.distance[i];
+                    if (t < m) {
+                        r = i;
+                        m = t;
+                    }
                 }
             }
             return r;
         }
 
-        public void majDistance(int indice, int s2, int d1, int d2) {
+        public void majDistance(int s1, int s2, int d1, int d2) {
             if (d2 > d1) {
-                this.notSeen[indice] = new Data(s2, d1);
+                this.distance[s2] = d1;
             }
         }
 
         public int StepDijkstra() {
             int ind = this.FindIndexMin();
-            Data f1 = this.notSeen[ind];
-            int d1 = f1.v;
-            this.alreadySeen[f1.k] = d1;
-            this.notSeen.RemoveAt(ind);
-            if (f1.k != this.finalNode) {
-                for (int i = 0 ; i < this.notSeen.Count ; i++) {
-                    Data f2 = this.notSeen[i];
-                    int edge = this.graph.GetEdge(f1.k, f2.k);
-                    if (edge != -1) {
-                        this.majDistance(i, f2.k, f1.v + edge, f2.v);
-                    }
+            this.alreadySeen[ind] = true;
+            if (ind != this.finalNode) {
+                for (int i = 0 ; i < this.graph.nbNodes ; i++) {
+                    if (!this.alreadySeen[i]) {
+                        int edge = this.graph.GetEdge(ind, i);
+                        if (edge != -1) {
+                            int d2 = this.distance[i];
+                            int d1 = this.distance[ind] + edge;
+                            this.majDistance(ind, i, d1, d2);
+                        }
+                    }  
                 }
             }
-            return f1.k;
+            return ind;
         }
         public int StartDijkstra() {
             int ind = 0;
             while(ind != this.finalNode) {
                 ind = this.StepDijkstra();
             }
-            return this.alreadySeen[ind];
+            return this.distance[ind];
         }
     }
     public class Question6
@@ -151,6 +155,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
         {
             //TODO: Please work out the solution;
+            Console.WriteLine("Bonjour");
+            Console.WriteLine("n : " + numOfServers);
+            Console.WriteLine("targetServer : " + targetServer);
+            Console.WriteLine("size of matrix : " + connectionTimeMatrix.GetLength(0) + "," + connectionTimeMatrix.GetLength(1));
             if (numOfServers < 2) {
                 return 0;
             }
