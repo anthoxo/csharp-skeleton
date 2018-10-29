@@ -87,36 +87,30 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         List<bool> alreadySeen;
         List<int> distance;
         int finalNode;
+        int indiceMin;
+        int valueIndiceMin;
         
         public Dijkstra(Graph graph, int finalNode) {
             this.graph = graph;
             this.alreadySeen = new List<bool>();
             this.distance = new List<int>();
             this.finalNode = finalNode;
+            this.indiceMin = - 1;
             this.InitValues();
         }
         public void InitValues() {
             List<int> t = new List<int>();
             this.distance.Add(0);
             this.alreadySeen.Add(false);
+            this.indiceMin = 0;
+            this.valueIndiceMin = 0;
             for (int i = 1 ; i < this.graph.nbNodes ; i++) {
                 this.distance.Add(int.MaxValue);
                 this.alreadySeen.Add(false);
             }
         }
         public int FindIndexMin() {
-            int r = 0;
-            int m = int.MaxValue;
-            for (int i = 0 ; i < this.graph.nbNodes ; i++) {
-                if (!this.alreadySeen[i]) {
-                    int t = this.distance[i];
-                    if (t < m) {
-                        r = i;
-                        m = t;
-                    }
-                }
-            }
-            return r;
+            return this.indiceMin;
         }
 
         public void majDistance(int s1, int s2, int d1, int d2) {
@@ -129,6 +123,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int ind = this.FindIndexMin();
             this.alreadySeen[ind] = true;
             if (ind != this.finalNode) {
+                this.indiceMin = this.finalNode;
+                this.valueIndiceMin = this.distance[this.finalNode];
                 for (int i = 0 ; i < this.graph.nbNodes ; i++) {
                     if (!this.alreadySeen[i]) {
                         int edge = this.graph.GetEdge(ind, i);
@@ -136,6 +132,11 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                             int d2 = this.distance[i];
                             int d1 = this.distance[ind] + edge;
                             this.majDistance(ind, i, d1, d2);
+                            d2 = this.distance[i];
+                            if (d2 < this.valueIndiceMin) {
+                                this.indiceMin = i;
+                                this.valueIndiceMin = d2;
+                            }
                         }
                     }  
                 }
