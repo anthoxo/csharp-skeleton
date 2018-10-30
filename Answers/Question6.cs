@@ -4,26 +4,6 @@ using System.Collections.Generic;
 
 namespace C_Sharp_Challenge_Skeleton.Answers
 {
-    public class DescendingKeyComparer<TKey> : IComparer<TKey> where TKey : IComparable {
-        #region IComparer<TKey> Members
-        public int Compare(TKey x, TKey y) {
-            int result = x.CompareTo(y);
-            return -result;
-        }
-        #endregion
-    }
-
-    public class DuplicateKeyComparer<TKey> : IComparer<TKey> where TKey : IComparable {
-        #region IComparer<TKey> Members
-        public int Compare(TKey x, TKey y) {
-            int result = x.CompareTo(y);
-            if (result == 0)
-                return 1;
-            else
-                return result;
-        }
-        #endregion
-    }
     public class Graph {
         public int nbNodes {
             get;
@@ -68,45 +48,30 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         }
     }
 
-    class Data {
-        public int k {
-            get;
-            set;
-        }
-        public int v {
-            get;
-            set;
-        }
-        public Data(int k, int v) {
-            this.k = k;
-            this.v = v;
-        }
-    }
     class Dijkstra {
         public Graph graph;
-        List<bool> alreadySeen;
-        List<int> distance;
+        bool[] alreadySeen;
+        int[] distance;
         int finalNode;
         int indiceMin;
         int valueIndiceMin;
         
         public Dijkstra(Graph graph, int finalNode) {
             this.graph = graph;
-            this.alreadySeen = new List<bool>();
-            this.distance = new List<int>();
+            this.alreadySeen = new bool[this.graph.nbNodes];
+            this.distance = new int[this.graph.nbNodes];
             this.finalNode = finalNode;
             this.indiceMin = - 1;
             this.InitValues();
         }
         public void InitValues() {
-            List<int> t = new List<int>();
-            this.distance.Add(0);
-            this.alreadySeen.Add(false);
+            this.distance[0] = 0;
+            this.alreadySeen[0] = false;
             this.indiceMin = 0;
             this.valueIndiceMin = 0;
             for (int i = 1 ; i < this.graph.nbNodes ; i++) {
-                this.distance.Add(int.MaxValue);
-                this.alreadySeen.Add(false);
+                this.distance[i] = int.MaxValue;
+                this.alreadySeen[i] = false;
             }
         }
         public int FindIndexMin() {
@@ -151,6 +116,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             return this.distance[ind];
         }
     }
+
     public class Question6
     {
         public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
@@ -170,5 +136,24 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int result = dijkstra.StartDijkstra();
             return result;
         }
+
+        public static int Answer2(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
+        {
+            //TODO: Please work out the solution;
+            if (numOfServers < 2 || targetServer == 0) {
+                return 0;
+            }
+            List<int> edges = new List<int>();
+            for (int i = 0 ; i < numOfServers ; i++) {
+                for (int j = 0 ; j < numOfServers ; j++) {
+                    edges.Add(connectionTimeMatrix[i, j]);
+                }
+            }
+            Graph g = new Graph(numOfServers, edges);
+            Dijkstra dijkstra = new Dijkstra(g, targetServer);
+            int result = dijkstra.StartDijkstra();
+            return result;
+        }
+
     }
 }
