@@ -21,6 +21,23 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             return this.edges[i,j];
         }
     }
+    public class Graph2 {
+        public int nbNodes {
+            get;
+            set;
+        }
+        public int[] edges {
+            get;
+        }
+        public Graph2(int nbNodes, int[] edges) {
+            this.nbNodes = nbNodes;
+            this.edges = edges;
+        }
+
+        public int GetEdge(int i, int j) {
+            return this.edges[i * this.nbNodes + j];
+        }
+    }
 
     class Dijkstra {
         public Graph graph;
@@ -90,6 +107,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             return this.distance[ind];
         }
     }
+
     public class Question6
     {
         public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
