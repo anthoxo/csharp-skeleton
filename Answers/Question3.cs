@@ -91,13 +91,18 @@ namespace C_Sharp_Challenge_Skeleton.Answers
     {
         public static int Answer(int numOfNodes, Edge[] edgeLists)
         {
-            Graph g = new Graph();
+            int[,] edges = new int[numOfNodes, numOfNodes];
             for (int i = 0 ; i < numOfNodes ; i++) {
-                g.AddNode();
-            } 
-            for (int i = 0 ; i < edgeLists.Length ; i++) {
-                g.AddEdge(edgeLists[i].EdgeA-1, edgeLists[i].EdgeB-1, 1);
+                for (int j = 0 ; j < numOfNodes ; j++) {
+                    edges[i,j] = -1;
+                }
             }
+            for (int i = 0 ; i < edgeLists.Length ; i++) {
+                Edge t = edgeLists[i];
+                edges[t.EdgeA-1, t.EdgeB-1] = 1;
+                edges[t.EdgeB-1, t.EdgeA-1] = 1;
+            }
+            Graph g = new Graph(numOfNodes, edges);
             Solution solution = new Solution(g);
             return solution.FindSolution();
         }

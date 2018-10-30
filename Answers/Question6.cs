@@ -9,42 +9,16 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             get;
             set;
         }
-        public List<int> edges {
+        public int[,] edges {
             get;
         }
-        public Graph() {
-            this.nbNodes = 0;
-            this.edges = new List<int>();
-        }
-        public Graph(int nbNodes, List<int> edges) {
+        public Graph(int nbNodes, int[,] edges) {
             this.nbNodes = nbNodes;
             this.edges = edges;
         }
 
         public int GetEdge(int i, int j) {
-            return this.edges[i * this.nbNodes + j];
-        }
-        public void AddNode() {
-            // à tester dans Test.cs
-            for (int i = this.nbNodes - 1 ; i >= 0 ; i--) {
-                this.edges.Insert(i * this.nbNodes + this.nbNodes, -1);
-            }
-            this.nbNodes += 1;
-            for (int i = 0 ; i < this.nbNodes ; i++) {
-                this.edges.Add(-1);
-            }
-        }
-
-        public void AddEdge(int i, int j, int value) {
-            if ((i > this.nbNodes && j > this.nbNodes) || i == j) {
-
-            } else {
-                if (i == this.nbNodes || j == this.nbNodes) {
-                    this.AddNode();
-                }
-                this.edges[i * this.nbNodes + j] = value;
-                this.edges[j * this.nbNodes + i] = value;
-            }
+            return this.edges[i,j];
         }
     }
 
@@ -116,7 +90,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             return this.distance[ind];
         }
     }
-
     public class Question6
     {
         public static int Answer(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
@@ -125,35 +98,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             if (numOfServers < 2 || targetServer == 0) {
                 return 0;
             }
-            List<int> edges = new List<int>();
-            for (int i = 0 ; i < numOfServers ; i++) {
-                for (int j = 0 ; j < numOfServers ; j++) {
-                    edges.Add(connectionTimeMatrix[i, j]);
-                }
-            }
-            Graph g = new Graph(numOfServers, edges);
+            Graph g = new Graph(numOfServers, connectionTimeMatrix);
             Dijkstra dijkstra = new Dijkstra(g, targetServer);
             int result = dijkstra.StartDijkstra();
             return result;
         }
-
-        public static int Answer2(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
-        {
-            //TODO: Please work out the solution;
-            if (numOfServers < 2 || targetServer == 0) {
-                return 0;
-            }
-            List<int> edges = new List<int>();
-            for (int i = 0 ; i < numOfServers ; i++) {
-                for (int j = 0 ; j < numOfServers ; j++) {
-                    edges.Add(connectionTimeMatrix[i, j]);
-                }
-            }
-            Graph g = new Graph(numOfServers, edges);
-            Dijkstra dijkstra = new Dijkstra(g, targetServer);
-            int result = dijkstra.StartDijkstra();
-            return result;
-        }
-
     }
 }
