@@ -16,7 +16,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             this.k = 0;
         }
         public int[] RunK(int[] listK, int k) {
-            int[] result = new int[this.graph.nbNodes * (int)Math.Pow(2,k+1)];
+            int[] result = new int[this.graph.nbNodes * this.sizeTmp];
             int s = 0;
             for (int i = 0 ; i < this.sizeTmp ; i = i + k) {
                 int n = listK[i+k-1];
@@ -32,7 +32,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                         for (int l = i ; l < i + k ; l++) {
                             result[s + (l - i)] = listK[l];
                         }
-                        result[size + k] = j;
+                        result[s + k] = j;
                         s += (k+1);
                     }
                 }
@@ -52,10 +52,15 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 this.k = 0;
                 int[] tmp = result;
                 while (this.sizeTmp != 0) {
+                    this.size = this.sizeTmp;
                     this.k += 1;
                     result = tmp;
+                    Console.WriteLine("Itération : " + k + ", taille : " + this.size);
+                    for (int i = 0 ; i < this.size ; i++) {
+                        Console.Write(result[i] + ",");
+                    }
+                    Console.WriteLine();
                     tmp = this.RunK(result, this.k);
-                    this.size = this.sizeTmp;
                 }
             }
             return result;
@@ -192,7 +197,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                     edges[i,j] = -1;
                 }
             }
-            Console.WriteLine("bonjour");
             for (int i = 0 ; i < edgeLists.Length ; i++) {
                 Edge t = edgeLists[i];
                 int a = t.EdgeA - 1 ;
@@ -200,7 +204,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 edges[a, b] = 1;
                 edges[b, a] = 1;
             }
-            Console.WriteLine("au revoir");
             
             Graph g = new Graph(numOfNodes, edges);
             Solution2 solution = new Solution2(g);
