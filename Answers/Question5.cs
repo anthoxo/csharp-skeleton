@@ -84,6 +84,37 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 }
             }
         }
+        public static int Answer2(int[] numOfShares, int totalValueOfShares)
+        {
+            if (numOfShares.Length == 0 || totalValueOfShares == 0) {
+                return 0;
+            } else {
+                int max = 10000;
+                int[] job = new int[totalValueOfShares + 1];
+                for (int i = 0 ; i < totalValueOfShares + 1 ; i++) {
+                    job[i] = max;
+                }
+                job[0] = 0;
+                int n = numOfShares.Length;
+                for (int i = 0 ; i < n ; i++) {
+                    int number = numOfShares[i];
+                    if (number > 0) {
+                        for (int k = number ; k < totalValueOfShares + 1 ; k++) {
+                            int r = job[k - number] + 1;
+                            if (r < job[k]) {
+                                job[k] = r;
+                            }
+                        }
+                    }
+                }
+                int t = job[totalValueOfShares];
+                if (t == max) {
+                    return 0;
+                } else {
+                    return t;
+                }
+            }
+        }
     }
 
 }
