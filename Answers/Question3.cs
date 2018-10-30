@@ -87,9 +87,85 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             }
         }
     }
+    class Solution2 {
+        Graph graph;
+
+        int k;
+        public Solution2(Graph g) {
+            this.graph = g;
+            this.k = 0;
+        }
+        public List<int> RunK(List<int> listK, int k) {
+            List<int> result = new List<int>();
+            for (int i = 0 ; i < listK.Count ; i = i + k) {
+                int n = listK[i+k-1];
+                List<int> tmp = new List<int>();
+                for (int j = n ; j < this.graph.nbNodes; j++) {
+                    bool pred = true;
+                    for (int l = i ; l < i + k; l++) {
+                        if (this.graph.GetEdge(listK[l], j) == 1 || listK[l] == j) {
+                            pred = false;
+                            break;
+                        }
+                    }
+                    if (pred) {
+                        for (int l = i ; l < i + k ; l++) {
+                            tmp.Add(listK[l]);
+                        }
+                        tmp.Add(j);
+                    }
+                }
+                result.AddRange(tmp);
+            }
+            return result;
+        }
+        public List<int> FindStables() {
+            List<int> result = new List<int>();
+            if (this.graph.nbNodes != 0) {
+                result = new List<int>();
+                for (int i = 0; i < this.graph.nbNodes ; i++) {
+                    result.Add(i);
+                }
+                this.k = 0;
+                List<int> tmp = result;
+                while (tmp.Count != 0) {
+                    this.k += 1;
+                    result = tmp;
+                    tmp = this.RunK(result, this.k);
+                }
+            }
+            return result;
+        }
+
+        public int FindSolution() {
+            int[] stables = this.FindStables().ToArray();
+            int n = stables.Length;
+            if (n == 0) {
+                return 0;
+            } else {
+                int a = 0;
+                for (int i = 0 ; i < n ; i = i + this.k) {
+                    int b = 0;
+                    for (int j = 0 ; j < this.graph.nbNodes ; j++) {
+                        for (int l = i ; l < i + this.k; l++) {
+                            int t = stables[l];
+                            if (t == j) {
+                                break;
+                            } else if (this.graph.GetEdge(t, j) == 1) { 
+                                b += 1;
+                                break;
+                            }
+                        }
+                    }
+                    a = (a < this.k-b) ? this.k-b : a;
+                }
+                return a;
+            }
+        }
+    }
     public class Question3
     {
-        public static int Answer(int numOfNodes, Edge[] edgeLists)
+        public static int Answer2(int numOfNodes, Edge[] edgeLists)
         {
             int[,] edges = new int[numOfNodes, numOfNodes];
             for (int i = 0 ; i < numOfNodes ; i++) {
@@ -99,11 +175,35 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             }
             for (int i = 0 ; i < edgeLists.Length ; i++) {
                 Edge t = edgeLists[i];
-                edges[t.EdgeA-1, t.EdgeB-1] = 1;
-                edges[t.EdgeB-1, t.EdgeA-1] = 1;
+                int a = t.EdgeA - 1 ;
+                int b = t.EdgeB - 1;
+                edges[a, b] = 1;
+                edges[b, a] = 1;
             }
             Graph g = new Graph(numOfNodes, edges);
             Solution solution = new Solution(g);
+            return solution.FindSolution();
+        }
+        public static int Answer(int numOfNodes, Edge[] edgeLists)
+        {
+            int[,] edges = new int[numOfNodes, numOfNodes];
+            for (int i = 0 ; i < numOfNodes ; i++) {
+                for (int j = 0 ; j < numOfNodes ; j++) {
+                    edges[i,j] = -1;
+                }
+            }
+            Console.WriteLine("bonjour");
+            for (int i = 0 ; i < edgeLists.Length ; i++) {
+                Edge t = edgeLists[i];
+                int a = t.EdgeA - 1 ;
+                int b = t.EdgeB - 1;
+                edges[a, b] = 1;
+                edges[b, a] = 1;
+            }
+            Console.WriteLine("au revoir");
+            
+            Graph g = new Graph(numOfNodes, edges);
+            Solution2 solution = new Solution2(g);
             return solution.FindSolution();
         }
     }
