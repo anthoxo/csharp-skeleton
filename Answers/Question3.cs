@@ -8,14 +8,17 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         Graph graph;
 
         int k;
+
+        int sizeTmp;
+        int size;
         public Solution(Graph g) {
             this.graph = g;
             this.k = 0;
         }
-
-        public List<int> RunK(List<int> listK, int k) {
-            List<int> result = new List<int>();
-            for (int i = 0 ; i < listK.Count ; i = i + k) {
+        public int[] RunK(int[] listK, int k) {
+            int[] result = new int[this.graph.nbNodes * (int)Math.Pow(2,k+1)];
+            int s = 0;
+            for (int i = 0 ; i < this.sizeTmp ; i = i + k) {
                 int n = listK[i+k-1];
                 for (int j = n ; j < this.graph.nbNodes; j++) {
                     bool pred = true;
@@ -27,98 +30,40 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                     }
                     if (pred) {
                         for (int l = i ; l < i + k ; l++) {
-                            result.Add(listK[l]);
+                            result[s + (l - i)] = listK[l];
                         }
-                        result.Add(j);
+                        result[size + k] = j;
+                        s += (k+1);
                     }
                 }
             }
+            this.sizeTmp = s;
             return result;
         }
-        public List<int> FindStables() {
-            List<int> result = new List<int>();
-            if (this.graph.nbNodes != 0) {
-                for (int i = 0; i < this.graph.nbNodes ; i++) {
-                    result.Add(i);
-                }
-                this.k = 0;
-                List<int> tmp = result;
-                while (tmp.Count != 0) {
-                    this.k += 1;
-                    result = tmp;
-                    tmp = this.RunK(result, this.k);
-                }
-            }
-            return result;
-        }
-
-        public int FindSolution() {
-            List<int> stables = this.FindStables();
-            if (stables.Count == 0) {
-                return 0;
-            } else {
-                int a = 0;
-                for (int i = 0 ; i < stables.Count ; i = i + this.k) {
-                    int b = 0;
-                    for (int j = 0 ; j < this.graph.nbNodes ; j++) {
-                        for (int l = i ; l < i + this.k; l++) {
-                            int t = stables[l];
-                            if (t == j) {
-                                break;
-                            } else if (this.graph.GetEdge(t, j) == 1) { 
-                                b += 1;
-                                break;
-                            }
-                        }
-                    }
-                    a = (a < this.k-b) ? this.k-b : a;
-                }
-                return a;
-            }
-        }
-        public int[] RunK2(int[] listK, int k) {
-            List<int> result = new List<int>();
-            for (int i = 0 ; i < listK.Length ; i = i + k) {
-                int n = listK[i+k-1];
-                for (int j = n ; j < this.graph.nbNodes; j++) {
-                    bool pred = true;
-                    for (int l = i ; l < i + k; l++) {
-                        if (this.graph.GetEdge(listK[l], j) == 1 || listK[l] == j) {
-                            pred = false;
-                            break;
-                        }
-                    }
-                    if (pred) {
-                        for (int l = i ; l < i + k ; l++) {
-                            result.Add(listK[l]);
-                        }
-                        result.Add(j);
-                    }
-                }
-            }
-            return result.ToArray();
-        }
-        public int[] FindStables2() {
+        public int[] FindStables() {
             int[] result = null;
             if (this.graph.nbNodes != 0) {
                 result = new int[this.graph.nbNodes];
                 for (int i = 0; i < this.graph.nbNodes ; i++) {
                     result[i] = i;
                 }
+                this.sizeTmp = this.graph.nbNodes;
+                this.size = this.sizeTmp;
                 this.k = 0;
                 int[] tmp = result;
-                while (tmp.Length != 0) {
+                while (this.sizeTmp != 0) {
                     this.k += 1;
                     result = tmp;
-                    tmp = this.RunK2(result, this.k);
+                    tmp = this.RunK(result, this.k);
+                    this.size = this.sizeTmp;
                 }
             }
             return result;
         }
 
-        public int FindSolution2() {
-            int[] stables = this.FindStables2();
-            int n = stables.Length;
+        public int FindSolution() {
+            int[] stables = this.FindStables();
+            int n = this.size;
             if (n == 0) {
                 return 0;
             } else {
@@ -144,18 +89,6 @@ namespace C_Sharp_Challenge_Skeleton.Answers
     }
     public class Question3
     {
-        public static int Answer2(int numOfNodes, Edge[] edgeLists)
-        {
-            Graph g = new Graph();
-            for (int i = 0 ; i < numOfNodes ; i++) {
-                g.AddNode();
-            } 
-            for (int i = 0 ; i < edgeLists.Length ; i++) {
-                g.AddEdge(edgeLists[i].EdgeA-1, edgeLists[i].EdgeB-1, 1);
-            }
-            Solution solution = new Solution(g);
-            return solution.FindSolution();
-        }
         public static int Answer(int numOfNodes, Edge[] edgeLists)
         {
             Graph g = new Graph();
@@ -166,7 +99,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 g.AddEdge(edgeLists[i].EdgeA-1, edgeLists[i].EdgeB-1, 1);
             }
             Solution solution = new Solution(g);
-            return solution.FindSolution2();
+            return solution.FindSolution();
         }
     }
 }
