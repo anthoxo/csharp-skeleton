@@ -170,7 +170,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
     }
     public class Question3
     {
-        public static int Answer2(int numOfNodes, Edge[] edgeLists)
+        public static int Answer(int numOfNodes, Edge[] edgeLists)
         {
             int[,] edges = new int[numOfNodes, numOfNodes];
             for (int i = 0 ; i < numOfNodes ; i++) {
@@ -189,7 +189,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             Solution solution = new Solution(g);
             return solution.FindSolution();
         }
-        public static int Answer(int numOfNodes, Edge[] edgeLists)
+        public static int Answer2(int numOfNodes, Edge[] edgeLists)
         {
             int[,] edges = new int[numOfNodes, numOfNodes];
             for (int i = 0 ; i < numOfNodes ; i++) {
