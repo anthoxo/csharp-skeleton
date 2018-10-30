@@ -55,11 +55,11 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                     this.size = this.sizeTmp;
                     this.k += 1;
                     result = tmp;
-                    Console.WriteLine("Itération : " + k + ", taille : " + this.size);
-                    for (int i = 0 ; i < this.size ; i++) {
-                        Console.Write(result[i] + ",");
-                    }
-                    Console.WriteLine();
+                    // Console.WriteLine("Itération : " + k + ", taille : " + this.size);
+                    // for (int i = 0 ; i < this.size ; i++) {
+                    //     Console.Write(result[i] + ",");
+                    // }
+                    // Console.WriteLine();
                     tmp = this.RunK(result, this.k);
                 }
             }
