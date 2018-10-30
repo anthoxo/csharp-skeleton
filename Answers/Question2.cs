@@ -89,43 +89,13 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                     }
                 }
                 return min;
-
-                // int min = 1000;
-                // l1.Insert(0, 0);
-                // l2.Insert(0, 0);
-
-                // foreach (int a1 in l1) {
-                //     int tmpMin = int.MaxValue;
-                //     int increase = -1;
-                //     foreach (int a2 in l2) {
-                //         //Console.WriteLine("(" + a1 + "," + a2 + ")");
-                //         if (a1 == 0 && a2 ==0) {
-
-                //         } else {
-                //             int t = (a1 < a2) ? a2 - a1 : a1 - a2;
-                //             if (t == 0) {
-                //                 return 0;
-                //             } else {
-                //                 if (t < min) {
-                //                     min = t;
-                //                     increase = 0;
-                //                 } else if (increase == 0 || tmpMin < t) {
-                //                     break;
-                //                 } else {
-                //                     tmpMin = t;
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
-                // return min;
             }
-            public int FindMinDistance2(List<int> l1, List<int> l2) {
+            public int FindMinDistance2(int[] l1, int[] l2) {
                 int min = (l1[0] < l2[0]) ? l1[0] : l2[0];
                 int i = 0;
                 int j = 0;
-                int n = l1.Count;
-                int m = l2.Count;
+                int n = l1.Length;
+                int m = l2.Length;
                 while (i < n && j < m) {
                     int a1 = l1[i];
                     int a2 = l2[j];
@@ -157,7 +127,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
 
             public int Run2(int[] cashflowIn, int[] cashflowOut) {
                 this.GeneratePartitions(cashflowIn, cashflowOut);
-                return this.FindMinDistance2(this.FindAllSum(this.dicoIn), this.FindAllSum(this.dicoOut));
+                return this.FindMinDistance2(this.FindAllSum(this.dicoIn).ToArray(), this.FindAllSum(this.dicoOut).ToArray());
             }
 
 
