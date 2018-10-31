@@ -92,7 +92,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             } else {
                 int max = 10000;
                 int[] bruh = new int[totalValueOfShares + 1];
-                for (int i = 0 ; i < totalValueOfShares + 1 ; i += 1) {
+                for (int i = 0 ; i < totalValueOfShares + 1 ; ++i) {
                     bruh[i] = max;
                 }
                 bruh[0] = 0;
@@ -105,7 +105,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 for (int i = 0 ; i < n ; ++i) {
                     int number = numOfShares[i];
                     if (number > 0) {
-                        for (int k = number ; k < totalValueOfShares + 1 ; k += 1) {
+                        for (int k = number ; k < totalValueOfShares + 1 ; ++k) {
                             int r = bruh[k - number] + 1;
                             if (r < bruh[k]) {
                                 bruh[k] = r;
