@@ -18,17 +18,16 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int s = 0;
             for (int i = 0 ; i < this.sizeTmp ; i = i + k) {
                 int n = listK[i+k-1] + 1;
-                for (int j = n ; j < this.graph.nbNodes; j++) {
+                for (int j = n ; j < this.graph.nbNodes; j += 1) {
                     bool pred = true;
-                    int i_plus_k = i + k;
-                    for (int l = i ; l < i_plus_k; l++) {
+                    for (int l = i ; l < i + k; l += 1) {
                         if (this.graph.GetEdge(listK[l], j) == 1) {
                             pred = false;
                             break;
                         }
                     }
                     if (pred) {
-                        for (int l = i ; l < i_plus_k ; l++) {
+                        for (int l = i ; l < i + k ; l += 1) {
                             result[s + (l - i)] = listK[l];
                         }
                         result[s + k] = j;
@@ -43,24 +42,21 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int[] result = null;
             if (this.graph.nbNodes != 0) {
                 result = new int[this.graph.nbNodes];
-                for (int i = 0; i < this.graph.nbNodes ; i++) {
+                int i = 0;
+                foreach(int _ in result) {
                     result[i] = i;
+                    i += 1;
                 }
                 this.sizeTmp = this.graph.nbNodes;
                 this.size = this.sizeTmp;
                 this.k = 0;
                 int[] tmp = result;
-                while (this.sizeTmp != 0) {
+                do {
                     this.size = this.sizeTmp;
                     this.k += 1;
                     result = tmp;
-                    // Console.WriteLine("Itération : " + k + ", taille : " + this.size);
-                    // for (int i = 0 ; i < this.size ; i++) {
-                    //     Console.Write(result[i] + ",");
-                    // }
-                    // Console.WriteLine();
                     tmp = this.RunK(result, this.k);
-                }
+                } while (this.sizeTmp != 0);
             }
             return result;
         }
@@ -74,8 +70,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 int a = 0;
                 for (int i = 0 ; i < n ; i = i + this.k) {
                     int b = 0;
-                    for (int j = 0 ; j < this.graph.nbNodes ; j++) {
-                        for (int l = i ; l < i + this.k; l++) {
+                    for (int j = 0 ; j < this.graph.nbNodes ; j += 1) {
+                        for (int l = i ; l < i + this.k; l += 1) {
                             int t = stables[l];
                             if (t == j) {
                                 break;
@@ -129,10 +125,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int[] result = null;
             if (this.graph.nbNodes != 0) {
                 result = new int[this.graph.nbNodes];
-                int i = 0;
-                foreach(int _ in result) {
+                for (int i = 0 ; i < this.graph.nbNodes ; i = i + 1) {
                     result[i] = i;
-                    i += 1;
                 }
                 this.sizeTmp = this.graph.nbNodes;
                 this.size = this.sizeTmp;
@@ -207,7 +201,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 edges[b * numOfNodes + a] = 1;
             }            
             Graph2 g = new Graph2(numOfNodes, edges);
-            Solution2 solution = new Solution2(g);
+            Solution solution = new Solution(g);
             return solution.FindSolution();
         }
     }
