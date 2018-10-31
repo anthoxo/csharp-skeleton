@@ -54,7 +54,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         //         }
         //     }
         // }
-        public static int Answer2(int[] numOfShares, int totalValueOfShares)
+        public static int Answer(int[] numOfShares, int totalValueOfShares)
         {
             if (numOfShares.Length == 0 || totalValueOfShares == 0) {
                 return 0;
@@ -85,7 +85,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 }
             }
         }
-        public static int Answer(int[] numOfShares, int totalValueOfShares)
+        public static int Answer2(int[] numOfShares, int totalValueOfShares)
         {
             int max = numOfShares.Sum();
             if (max < totalValueOfShares) {
