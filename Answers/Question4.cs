@@ -14,7 +14,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             }
             return y;
         }
-        public static int Answer2(string[,] machineToBeFixed, int numOfConsecutiveMachines)
+        public static int Answer(string[,] machineToBeFixed, int numOfConsecutiveMachines)
         {
             int m = machineToBeFixed.GetLength(1);
             if (m < numOfConsecutiveMachines) {
@@ -24,23 +24,31 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 int n = machineToBeFixed.GetLength(0);
                 for (int i = 0 ; i < n ; i++) {
                     int lastX = -1;
-                    int sumTmp = 0;
+                    int GODNESS = 0;
+                    bool pred = false;
                     for (int j = 0 ; j < m ; j++) {
                         if (machineToBeFixed[i, j][0] == 'X') {
                             lastX = j;
-                            sumTmp = 0;
+                            GODNESS = 0;
+                            pred = false;
                             if (m-j-1 < numOfConsecutiveMachines) {
                                 break;
                             }
                         } else {
-                            int a = Question4.Parse(machineToBeFixed[i, j]);
-                            sumTmp += a;
                             if (j - lastX == numOfConsecutiveMachines) {
-                                if (sumTmp < result) {
-                                    result = sumTmp;
+                                if (pred) {
+                                    GODNESS += Question4.Parse(machineToBeFixed[i, j]);
+                                } else {
+                                    for (int kk = 0 ; kk < numOfConsecutiveMachines ; ++kk) {
+                                        GODNESS += Question4.Parse(machineToBeFixed[i, j - kk]);
+                                    }
+                                    pred = true;
+                                }
+                                if (GODNESS < result) {
+                                    result = GODNESS;
                                 }
                                 lastX += 1;
-                                sumTmp -= Question4.Parse(machineToBeFixed[i, lastX]);
+                                GODNESS -= Question4.Parse(machineToBeFixed[i, lastX]);
                             }
                         }
                     }
@@ -48,7 +56,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 return (result == int.MaxValue) ? 0 : result;
             }
         }
-        public static int Answer(string[,] machineToBeFixed, int numOfConsecutiveMachines)
+        public static int Answer2(string[,] machineToBeFixed, int numOfConsecutiveMachines)
         {
             int m = machineToBeFixed.GetLength(1);
             if (m < numOfConsecutiveMachines) {
@@ -56,10 +64,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             } else {
                 int result = int.MaxValue;
                 int n = machineToBeFixed.GetLength(0);
-                for (int i = 0 ; i < n ; i += 1) {
+                for (int i = 0 ; i < n ; ++i) {
                     int lastX = -1;
                     int sumTmp = 0;
-                    for (int j = 0 ; j < m ; j += 1) {
+                    for (int j = 0 ; j < m ; ++j) {
                         if (machineToBeFixed[i, j][0] == 'X') {
                             lastX = j;
                             sumTmp = 0;
@@ -79,7 +87,11 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                         }
                     }
                 }
-                return (result == int.MaxValue) ? 0 : result;
+                if (result == int.MaxValue) {
+                    return 0;
+                } else {
+                    return result;
+                }
             }
         }
     }
