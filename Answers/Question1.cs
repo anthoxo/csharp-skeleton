@@ -18,13 +18,13 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 int answer = 0;
                 i = 0;
                 foreach(int p in portfolios) {
-                    for (j = i + 1 ; j < n ; j++) {
+                    for (j = i + 1 ; j < n ; j += 1) {
                         int t = p ^ portfolios[j];
                         if (answer < t){
                             answer = t;
                         }
                     }
-                    i++;
+                    i += 1;
                 }
                 return answer;
             }
