@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace C_Sharp_Challenge_Skeleton.Answers
 {
-    class Solution2 {
+    class Solution {
         Graph2 graph;
         int k;
         int sizeTmp;
@@ -14,25 +14,26 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             this.k = 0;
         }
         public int[] RunK(int[] listK, int k) {
-            int[] result = new int[this.graph.nbNodes * this.sizeTmp];
+            int n1 = this.graph.nbNodes * this.sizeTmp;
+            int[] result = new int[n1];
             int s = 0;
             for (int i = 0 ; i < this.sizeTmp ; i = i + k) {
                 int n = listK[i+k-1] + 1;
                 for (int j = n ; j < this.graph.nbNodes; j += 1) {
-                    bool pred = true;
                     for (int l = i ; l < i + k; l += 1) {
                         if (this.graph.GetEdge(listK[l], j) == 1) {
-                            pred = false;
-                            break;
+                            goto brew;
                         }
                     }
-                    if (pred) {
+                    goto ff;
+                    brew:
                         for (int l = i ; l < i + k ; l += 1) {
                             result[s + (l - i)] = listK[l];
                         }
                         result[s + k] = j;
                         s += (k+1);
-                    }
+                    ff:
+                        continue;
                 }
             }
             this.sizeTmp = s;
@@ -42,10 +43,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int[] result = null;
             if (this.graph.nbNodes != 0) {
                 result = new int[this.graph.nbNodes];
-                int i = 0;
-                foreach(int _ in result) {
+                for (int i = 0 ; i < this.graph.nbNodes ; i = i + 1) {
                     result[i] = i;
-                    i += 1;
                 }
                 this.sizeTmp = this.graph.nbNodes;
                 this.size = this.sizeTmp;
@@ -87,7 +86,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             }
         }
     }
-    class Solution {
+    class Solution2 {
         Graph2 graph;
         int k;
         int sizeTmp;
