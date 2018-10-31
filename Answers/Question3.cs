@@ -25,7 +25,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                             goto bruh;
                         }
                     }
-                    for (int l = i ; l < i + k ; l += 1) {
+                    for (int l = i ; l < i + k ; ++l) {
                         result[s + (l - i)] = listK[l];
                     }
                     result[s + k] = j;
@@ -41,7 +41,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int[] result = null;
             if (this.graph.nbNodes != 0) {
                 result = new int[this.graph.nbNodes];
-                for (int i = 0 ; i < this.graph.nbNodes ; i = i + 1) {
+                for (int i = 0 ; i < this.graph.nbNodes ; ++i) {
                     result[i] = i;
                 }
                 this.sizeTmp = this.graph.nbNodes;
@@ -67,8 +67,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 int a = 0;
                 for (int i = 0 ; i < n ; i = i + this.k) {
                     int b = 0;
-                    for (int j = 0 ; j < this.graph.nbNodes ; j += 1) {
-                        for (int l = i ; l < i + this.k; l += 1) {
+                    for (int j = 0 ; j < this.graph.nbNodes ; ++j) {
+                        for (int l = i ; l < i + this.k; ++l) {
                             int t = stables[l];
                             if (t == j) {
                                 break;
@@ -94,25 +94,27 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             this.k = 0;
         }
         public int[] RunK(int[] listK, int k) {
-            int[] result = new int[this.graph.nbNodes * this.sizeTmp];
+            int n1 = this.graph.nbNodes * this.sizeTmp;
+            int[] result = new int[n1];
             int s = 0;
-            for (int i = 0 ; i < this.sizeTmp ; i = i + k) {
-                int n = listK[i+k-1] + 1;
-                for (int j = n ; j < this.graph.nbNodes; j += 1) {
-                    bool pred = true;
-                    for (int l = i ; l < i + k; l += 1) {
-                        if (this.graph.GetEdge(listK[l], j) == 1) {
-                            pred = false;
-                            break;
+            for (int node = 0 ; node < this.graph.nbNodes ; ++node) {
+                for (int i = 0 ; i < this.sizeTmp ; i = i + k) {
+                    int n = listK[i+k-1] + 1;
+                    if (node < n) {
+                        goto bruh;
+                    }
+                    for (int l = i ; l < i + k; ++l) {
+                        if (this.graph.GetEdge(listK[l], node) == 1) {
+                            goto bruh;
                         }
                     }
-                    if (pred) {
-                        for (int l = i ; l < i + k ; l += 1) {
-                            result[s + (l - i)] = listK[l];
-                        }
-                        result[s + k] = j;
-                        s += (k+1);
+                    for (int l = i ; l < i + k ; ++l) {
+                        result[s + (l - i)] = listK[l];
                     }
+                    result[s + k] = node;
+                    s += (k+1);
+                    bruh:
+                        continue;
                 }
             }
             this.sizeTmp = s;
@@ -122,7 +124,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int[] result = null;
             if (this.graph.nbNodes != 0) {
                 result = new int[this.graph.nbNodes];
-                for (int i = 0 ; i < this.graph.nbNodes ; i = i + 1) {
+                for (int i = 0 ; i < this.graph.nbNodes ; ++i) {
                     result[i] = i;
                 }
                 this.sizeTmp = this.graph.nbNodes;
@@ -148,8 +150,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 int a = 0;
                 for (int i = 0 ; i < n ; i = i + this.k) {
                     int b = 0;
-                    for (int j = 0 ; j < this.graph.nbNodes ; j += 1) {
-                        for (int l = i ; l < i + this.k; l += 1) {
+                    for (int j = 0 ; j < this.graph.nbNodes ; ++j) {
+                        for (int l = i ; l < i + this.k; ++l) {
                             int t = stables[l];
                             if (t == j) {
                                 break;
@@ -159,7 +161,10 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                             }
                         }
                     }
-                    a = (a < this.k-b) ? this.k-b : a;
+                    int tt = this.k - b;
+                    if (a < tt) {
+                        a = tt;
+                    }
                 }
                 return a;
             }
