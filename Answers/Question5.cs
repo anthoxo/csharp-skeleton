@@ -54,7 +54,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         //         }
         //     }
         // }
-        public static int Answer(int[] numOfShares, int totalValueOfShares)
+        public static int Answer2(int[] numOfShares, int totalValueOfShares)
         {
             if (numOfShares.Length == 0 || totalValueOfShares == 0) {
                 return 0;
@@ -85,38 +85,40 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 }
             }
         }
-        public static int Answer2(int[] numOfShares, int totalValueOfShares)
+        public static int Answer(int[] numOfShares, int totalValueOfShares)
         {
-            int max = numOfShares.Sum();
-            if (max < totalValueOfShares) {
+            if (numOfShares.Length == 0 || totalValueOfShares == 0) {
                 return 0;
             } else {
-                int max1 = totalValueOfShares+1;
+                int max = 10000;
                 int[] bruh = new int[totalValueOfShares + 1];
                 for (int i = 0 ; i < totalValueOfShares + 1 ; i += 1) {
-                    bruh[i] = max1;
+                    bruh[i] = max;
                 }
                 bruh[0] = 0;
-                List<int> alreadyAdded = new List<int>();
-                List<int> tmp = new List<int>();
-                foreach (int num in numOfShares) {
-                    int n = totalValueOfShares/num;
-                    for (int i = num ; i < n ; i += num) {
-                        foreach (int poop in alreadyAdded) {
-                            int t = poop + i;
-                            if (t < totalValueOfShares + 1) {
-                                tmp.Add(poop + i);
-                                int r = bruh[i - num] + 1;
-                                if (r < bruh[i]) {
-                                    bruh[i] = r;
-                                }
+                int n = numOfShares.Length;
+                if (n > 50) {
+                    numOfShares = (new HashSet<int>(numOfShares)).ToArray();
+                    n = numOfShares.Length;
+                }
+
+                for (int i = 0 ; i < n ; ++i) {
+                    int number = numOfShares[i];
+                    if (number > 0) {
+                        for (int k = number ; k < totalValueOfShares + 1 ; k += 1) {
+                            int r = bruh[k - number] + 1;
+                            if (r < bruh[k]) {
+                                bruh[k] = r;
                             }
                         }
-                        tmp.Add(i);
                     }
-                    alreadyAdded.AddRange(tmp);
                 }
-                return (bruh[totalValueOfShares] == max1) ? 0 : bruh[totalValueOfShares];
+                int t = bruh[totalValueOfShares];
+                if (t == max) {
+                    return 0;
+                } else {
+                    return t;
+                }
             }
         }
     }
