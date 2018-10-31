@@ -9,7 +9,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
         int k;
         int sizeTmp;
         int size;
-        public Solution2(Graph2 g) {
+        public Solution(Graph2 g) {
             this.graph = g;
             this.k = 0;
         }
