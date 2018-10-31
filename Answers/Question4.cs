@@ -56,43 +56,5 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 return (result == int.MaxValue) ? 0 : result;
             }
         }
-        public static int Answer2(string[,] machineToBeFixed, int numOfConsecutiveMachines)
-        {
-            int m = machineToBeFixed.GetLength(1);
-            if (m < numOfConsecutiveMachines) {
-                return 0;
-            } else {
-                int result = int.MaxValue;
-                int n = machineToBeFixed.GetLength(0);
-                for (int i = 0 ; i < n ; ++i) {
-                    int lastX = -1;
-                    int sumTmp = 0;
-                    for (int j = 0 ; j < m ; ++j) {
-                        if (machineToBeFixed[i, j][0] == 'X') {
-                            lastX = j;
-                            sumTmp = 0;
-                            if (m-j-1 < numOfConsecutiveMachines) {
-                                break;
-                            }
-                        } else {
-                            int a = Question4.Parse(machineToBeFixed[i, j]);
-                            sumTmp += a;
-                            if (j - lastX == numOfConsecutiveMachines) {
-                                if (sumTmp < result) {
-                                    result = sumTmp;
-                                }
-                                lastX += 1;
-                                sumTmp -= Question4.Parse(machineToBeFixed[i, lastX]);
-                            }
-                        }
-                    }
-                }
-                if (result == int.MaxValue) {
-                    return 0;
-                } else {
-                    return result;
-                }
-            }
-        }
     }
 }
