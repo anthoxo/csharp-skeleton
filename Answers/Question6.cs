@@ -122,16 +122,16 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             int result = dijkstra.StartDijkstra();
             return result;
         }
-        public static int Answer2(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
-        {
-            //TODO: Please work out the solution;
-            if (numOfServers < 2 || targetServer == 0) {
-                return 0;
-            }
-            Graph g = new Graph(numOfServers, connectionTimeMatrix);
-            Dijkstra2 dijkstra = new Dijkstra2(g, targetServer);
-            int result = dijkstra.StartDijkstra();
-            return result;
-        }
+        // public static int Answer2(int numOfServers, int targetServer, int[,] connectionTimeMatrix)
+        // {
+        //     //TODO: Please work out the solution;
+        //     if (numOfServers < 2 || targetServer == 0) {
+        //         return 0;
+        //     }
+        //     Graph g = new Graph(numOfServers, connectionTimeMatrix);
+        //     Dijkstra2 dijkstra = new Dijkstra2(g, targetServer);
+        //     int result = dijkstra.StartDijkstra();
+        //     return result;
+        // }
     }
 }
