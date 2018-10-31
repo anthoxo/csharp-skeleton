@@ -16,16 +16,19 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             } else {
                 int i,j;
                 int answer = 0;
-                for (i = 0 ; i < n ; i++) {
+                i = 0;
+                foreach(int p in portfolios) {
                     for (j = i + 1 ; j < n ; j++) {
-                        int t = portfolios[i] ^ portfolios[j];
+                        int t = p ^ portfolios[j];
                         if (answer < t){
                             answer = t;
                         }
                     }
+                    i++;
                 }
                 return answer;
             }
         }
+
     }
 }
