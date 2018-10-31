@@ -22,17 +22,15 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 for (int j = n ; j < this.graph.nbNodes; j += 1) {
                     for (int l = i ; l < i + k; l += 1) {
                         if (this.graph.GetEdge(listK[l], j) == 1) {
-                            goto brew;
+                            goto bruh;
                         }
                     }
-                    goto ff;
-                    brew:
-                        for (int l = i ; l < i + k ; l += 1) {
-                            result[s + (l - i)] = listK[l];
-                        }
-                        result[s + k] = j;
-                        s += (k+1);
-                    ff:
+                    for (int l = i ; l < i + k ; l += 1) {
+                        result[s + (l - i)] = listK[l];
+                    }
+                    result[s + k] = j;
+                    s += (k+1);
+                    bruh:
                         continue;
                 }
             }
