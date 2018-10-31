@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace C_Sharp_Challenge_Skeleton.Answers
 {
-    class Solution {
+    class Solution2 {
         Graph2 graph;
         int k;
         int sizeTmp;
         int size;
-        public Solution(Graph2 g) {
+        public Solution2(Graph2 g) {
             this.graph = g;
             this.k = 0;
         }
@@ -91,39 +91,31 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             }
         }
     }
-    class Solution2 {
+    class Solution {
         Graph2 graph;
         int k;
         int sizeTmp;
         int size;
-        int[] iterGraphNode;
-        public Solution2(Graph2 g) {
+        public Solution(Graph2 g) {
             this.graph = g;
             this.k = 0;
-            this.iterGraphNode = new int[this.graph.nbNodes];
         }
         public int[] RunK(int[] listK, int k) {
             int[] result = new int[this.graph.nbNodes * this.sizeTmp];
             int s = 0;
             for (int i = 0 ; i < this.sizeTmp ; i = i + k) {
                 int n = listK[i+k-1] + 1;
-                for (int j = n ; j < this.graph.nbNodes; j = j + 1) {
+                for (int j = n ; j < this.graph.nbNodes; j += 1) {
                     bool pred = true;
-                    int[] iter = new int[k];
-                    int l = i;
-                    int i_plus_k = i + k;
-                    foreach(int _ in iter) {
+                    for (int l = i ; l < i + k; l += 1) {
                         if (this.graph.GetEdge(listK[l], j) == 1) {
                             pred = false;
                             break;
                         }
-                        l += 1;
                     }
                     if (pred) {
-                        l = i;
-                        foreach(int _ in iter) {
+                        for (int l = i ; l < i + k ; l += 1) {
                             result[s + (l - i)] = listK[l];
-                            l += 1;
                         }
                         result[s + k] = j;
                         s += (k+1);
@@ -138,7 +130,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             if (this.graph.nbNodes != 0) {
                 result = new int[this.graph.nbNodes];
                 int i = 0;
-                foreach(int _ in this.iterGraphNode) {
+                foreach(int _ in result) {
                     result[i] = i;
                     i += 1;
                 }
@@ -146,17 +138,12 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 this.size = this.sizeTmp;
                 this.k = 0;
                 int[] tmp = result;
-                while (this.sizeTmp != 0) {
+                do {
                     this.size = this.sizeTmp;
                     this.k += 1;
                     result = tmp;
-                    // Console.WriteLine("Itération : " + k + ", taille : " + this.size);
-                    // for (int i = 0 ; i < this.size ; i++) {
-                    //     Console.Write(result[i] + ",");
-                    // }
-                    // Console.WriteLine();
                     tmp = this.RunK(result, this.k);
-                }
+                } while (this.sizeTmp != 0);
             }
             return result;
         }
@@ -170,8 +157,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 int a = 0;
                 for (int i = 0 ; i < n ; i = i + this.k) {
                     int b = 0;
-                    for (int j = 0 ; j < this.graph.nbNodes ; j++) {
-                        for (int l = i ; l < i + this.k; l++) {
+                    for (int j = 0 ; j < this.graph.nbNodes ; j += 1) {
+                        for (int l = i ; l < i + this.k; l += 1) {
                             int t = stables[l];
                             if (t == j) {
                                 break;
