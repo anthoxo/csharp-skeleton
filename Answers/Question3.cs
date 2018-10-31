@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Linq;
 using C_Sharp_Challenge_Skeleton.Beans;
 using System.Collections.Generic;
 
 namespace C_Sharp_Challenge_Skeleton.Answers
 {
-    class Solution {
+    class Solution2 {
         Graph2 graph;
         int k;
         int sizeTmp;
         int size;
-        public Solution(Graph2 g) {
+        public Solution2(Graph2 g) {
             this.graph = g;
             this.k = 0;
         }
@@ -84,66 +85,67 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             }
         }
     }
-    class Solution2 {
+    class Solution {
         Graph2 graph;
         int k;
         int sizeTmp;
+        int ptr;
         int size;
-        public Solution2(Graph2 g) {
+        int[] stables;
+        int max;
+        public Solution(Graph2 g) {
             this.graph = g;
             this.k = 0;
+            this.max = 1000;
+            this.stables = new int[this.max];
         }
-        public int[] RunK(int[] listK, int k) {
-            int n1 = this.graph.nbNodes * this.sizeTmp;
-            int[] result = new int[n1];
+        public int[] RunK(int k) {
             int s = 0;
-            for (int node = 0 ; node < this.graph.nbNodes ; ++node) {
-                for (int i = 0 ; i < this.sizeTmp ; i = i + k) {
-                    int n = listK[i+k-1] + 1;
-                    if (node < n) {
-                        goto bruh;
-                    }
+            int ptr = this.ptr;
+            for (int i = 0 ; i < this.sizeTmp ; i = i + k) {
+                int n = this.stables[(ptr + i + k - 1)%this.max] + 1;
+                for (int j = n ; j < this.graph.nbNodes; ++j) {
                     for (int l = i ; l < i + k; ++l) {
-                        if (this.graph.GetEdge(listK[l], node) == 1) {
+                        if (this.graph.GetEdge(this.stables[(ptr + l)%this.max], j) == 1) {
                             goto bruh;
                         }
                     }
                     for (int l = i ; l < i + k ; ++l) {
-                        result[s + (l - i)] = listK[l];
+                        this.stables[(ptr + this.sizeTmp + s + (l - i))%this.max] = this.stables[(ptr + l)%this.max];
                     }
-                    result[s + k] = node;
+                    stables[(ptr + this.sizeTmp + s + k)%this.max] = j;
                     s += (k+1);
                     bruh:
                         continue;
                 }
             }
+            this.ptr = (this.ptr + this.sizeTmp)%this.max; 
             this.sizeTmp = s;
-            return result;
+            return stables;
         }
-        public int[] FindStables() {
-            int[] result = null;
+        public void FindStables() {
             if (this.graph.nbNodes != 0) {
-                result = new int[this.graph.nbNodes];
                 for (int i = 0 ; i < this.graph.nbNodes ; ++i) {
-                    result[i] = i;
+                    this.stables[i] = i;
                 }
                 this.sizeTmp = this.graph.nbNodes;
                 this.size = this.sizeTmp;
+                this.ptr = 0;
                 this.k = 0;
-                int[] tmp = result;
+                int[] tmp = stables;
                 do {
                     this.size = this.sizeTmp;
                     this.k += 1;
-                    result = tmp;
-                    tmp = this.RunK(result, this.k);
-                } while (this.sizeTmp != 0);
+                    stables = tmp;
+                    tmp = this.RunK(this.k);
+                } while (this.sizeTmp != 0 && this.k != this.graph.nbNodes);
             }
-            return result;
         }
 
         public int FindSolution() {
-            int[] stables = this.FindStables();
+            this.FindStables();
             int n = this.size;
+            int ptr = this.ptr;
             if (n == 0) {
                 return 0;
             } else {
@@ -152,7 +154,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                     int b = 0;
                     for (int j = 0 ; j < this.graph.nbNodes ; ++j) {
                         for (int l = i ; l < i + this.k; ++l) {
-                            int t = stables[l];
+                            int t = this.stables[ptr + l];
                             if (t == j) {
                                 break;
                             } else if (this.graph.GetEdge(t, j) == 1) { 
@@ -161,15 +163,13 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                             }
                         }
                     }
-                    int tt = this.k - b;
-                    if (a < tt) {
-                        a = tt;
-                    }
+                    a = (a < this.k-b) ? this.k-b : a;
                 }
                 return a;
             }
         }
     }
+
     public class Question3
     {
         public static int Answer(int numOfNodes, Edge[] edgeLists)
@@ -203,7 +203,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 edges[b * numOfNodes + a] = 1;
             }            
             Graph2 g = new Graph2(numOfNodes, edges);
-            Solution solution = new Solution(g);
+            Solution2 solution = new Solution2(g);
             return solution.FindSolution();
         }
     }
