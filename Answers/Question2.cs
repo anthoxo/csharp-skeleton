@@ -49,6 +49,8 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                         foreach (int kk in alreadyAdded) {
                             tmp.Add(kk + a);
                         }
+                    }
+                    for (int i = 0 ; i < kvp.Value ; i++) {
                         tmp.Add(a);
                         a += kvp.Key;
                     }
@@ -171,7 +173,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
                 return r;
             }
         }
-        public static int Answer(int[] cashflowIn, int[] cashflowOut)
+        public static int Answer2(int[] cashflowIn, int[] cashflowOut)
         {            
             Solution s = new Solution();
             if (cashflowIn.Length == 0) {
@@ -183,7 +185,7 @@ namespace C_Sharp_Challenge_Skeleton.Answers
             }
         }
 
-        public static int Answer2(int[] cashflowIn, int[] cashflowOut)
+        public static int Answer(int[] cashflowIn, int[] cashflowOut)
         {            
             Solution2 s = new Solution2();
             if (cashflowIn.Length == 0) {
